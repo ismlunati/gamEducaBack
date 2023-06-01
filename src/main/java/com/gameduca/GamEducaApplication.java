@@ -10,7 +10,10 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.gameduca.entity.Asignatura;
+import com.gameduca.entity.Rol;
+import com.gameduca.entity.RolNombre;
 import com.gameduca.repository.AsignaturaRepository;
+import com.gameduca.repository.RolRepository;
 
 @SpringBootApplication
 public class GamEducaApplication {
@@ -51,6 +54,17 @@ public class GamEducaApplication {
                 asignaturaRepository.save(asignatura);
             });
             asignaturaRepository.findAll().forEach(System.out::println);
+        };
+    }
+	
+	@Bean
+    CommandLineRunner init3(RolRepository rolRepository) {
+        return args -> {
+            Stream.of(RolNombre.ROLE_ADMIN, RolNombre.ROLE_USER).forEach(name -> {
+                Rol rol = new Rol(name);
+                rolRepository.save(rol);
+            });
+            rolRepository.findAll().forEach(System.out::println);
         };
     }
 

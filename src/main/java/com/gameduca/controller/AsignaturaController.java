@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")
 public class AsignaturaController {
 	
     @Autowired
@@ -34,7 +35,7 @@ public class AsignaturaController {
     
 
     @PutMapping("/asignaturas/{id}")
-    public Asignatura updateAsignatura(@PathVariable Integer id, @RequestBody Asignatura newAsignatura) {
+    public Asignatura updateAsignatura(@PathVariable Long id, @RequestBody Asignatura newAsignatura) {
         return asignaturaRepository.findById(id)
           .map(asignatura -> {
             asignatura.setNombre(newAsignatura.getNombre());
@@ -49,12 +50,12 @@ public class AsignaturaController {
     }
 
     @DeleteMapping("/asignaturas/{id}")
-    public void deleteAsignatura(@PathVariable Integer id) {
+    public void deleteAsignatura(@PathVariable Long id) {
         asignaturaRepository.deleteById(id);
     }
     
     @GetMapping("/asignaturas/{id}")
-    public Asignatura getAsignatura(@PathVariable Integer id) throws Exception {
+    public Asignatura getAsignatura(@PathVariable Long id) throws Exception {
       Optional<Asignatura> asignatura = asignaturaRepository.findById(id);
       try {
     	  return asignatura.get();

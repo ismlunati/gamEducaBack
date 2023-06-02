@@ -18,7 +18,7 @@ public class NuevoUsuario {
     @NotBlank
     private String password;
 
-    private Set<String> roles;
+    private String rol;
 
     public String getNombre() {
         return nombre;
@@ -52,11 +52,11 @@ public class NuevoUsuario {
         this.password = password;
     }
 
-    public Set<String> getRoles() {
-        return roles;
+    public String getRol() {
+        return rol;
     }
 
-    public void setRoles(Set<String> roles) {
-        this.roles = roles;
+    public void setRol(String rol) {
+        this.rol = rol;
     }
 }

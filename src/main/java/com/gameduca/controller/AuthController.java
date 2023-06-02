@@ -28,6 +28,7 @@ import com.gameduca.service.UsuarioService;
 
 import javax.validation.Valid;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 @RestController
@@ -61,11 +62,11 @@ public class AuthController {
         Usuario usuario =
                 new Usuario(nuevoUsuario.getNombre(), nuevoUsuario.getNombreUsuario(), nuevoUsuario.getEmail(),
                         passwordEncoder.encode(nuevoUsuario.getPassword()));
-        Set<String> rolesStr = nuevoUsuario.getRoles();
+        String rol = nuevoUsuario.getRol();
         Set<Rol> roles = new HashSet<>();
-        for (String rol : rolesStr) {
+       
             switch (rol) {
-                case "admin":
+                case "ROL_ADMIN":
                     Rol rolAdmin = rolService.getByRolNombre(RolNombre.ROLE_ADMIN).get();
                     roles.add(rolAdmin);
                     break;
@@ -73,10 +74,23 @@ public class AuthController {
                     Rol rolUser = rolService.getByRolNombre(RolNombre.ROLE_USER).get();
                     roles.add(rolUser);
             }
-        }
+        
         usuario.setRoles(roles);
         usuarioService.guardar(usuario);
-        return new ResponseEntity("usuario guardado", HttpStatus.CREATED);
+        //return new ResponseEntity("usuario guardado", HttpStatus.CREATED);
+        
+        
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(nuevoUsuario.getNombreUsuario(), nuevoUsuario.getPassword())
+        );
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        String jwt = jwtProvider.generateToken(authentication);
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        JwtDTO jwtDTO = new JwtDTO(jwt, usuario, userDetails.getAuthorities());
+
+        
+        
+        return new ResponseEntity<JwtDTO>(jwtDTO, HttpStatus.CREATED);
     }
 
     @PostMapping("/login")
@@ -89,7 +103,30 @@ public class AuthController {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = jwtProvider.generateToken(authentication);
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        JwtDTO jwtDTO = new JwtDTO(jwt, userDetails.getUsername(), userDetails.getAuthorities());
-        return new ResponseEntity<JwtDTO>(jwtDTO, HttpStatus.OK);
+
+        // Obtener el objeto de usuario
+        Optional<Usuario> optionalUser = usuarioService.getByNombreUsuario(userDetails.getUsername());
+        if (optionalUser.isPresent()) {
+            Usuario user = optionalUser.get();
+            JwtDTO jwtDTO = new JwtDTO(jwt, user, userDetails.getAuthorities());
+            return new ResponseEntity<JwtDTO>(jwtDTO, HttpStatus.OK);
+        } else {
+            return new ResponseEntity("Usuario no encontrado", HttpStatus.NOT_FOUND);
+        }
+
     }
+
+//    @PostMapping("/login")
+//    public ResponseEntity<JwtDTO> login(@Valid @RequestBody LoginUsuario loginUsuario, BindingResult bindingResult){
+//        if(bindingResult.hasErrors())
+//            return new ResponseEntity("campos vacíos o email inválido", HttpStatus.BAD_REQUEST);
+//        Authentication authentication = authenticationManager.authenticate(
+//                new UsernamePasswordAuthenticationToken(loginUsuario.getNombreUsuario(), loginUsuario.getPassword())
+//        );
+//        SecurityContextHolder.getContext().setAuthentication(authentication);
+//        String jwt = jwtProvider.generateToken(authentication);
+//        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+//        JwtDTO jwtDTO = new JwtDTO(jwt, userDetails.getUsername(), userDetails.getAuthorities());
+//        return new ResponseEntity<JwtDTO>(jwtDTO, HttpStatus.OK);
+//    }
 }

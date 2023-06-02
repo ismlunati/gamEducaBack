@@ -19,10 +19,14 @@ import org.springframework.web.bind.annotation.RestController;
 import com.gameduca.dto.JwtDTO;
 import com.gameduca.dto.LoginUsuario;
 import com.gameduca.dto.NuevoUsuario;
+import com.gameduca.entity.Alumno;
+import com.gameduca.entity.Profesor;
 import com.gameduca.entity.Rol;
 import com.gameduca.entity.RolNombre;
 import com.gameduca.entity.Usuario;
 import com.gameduca.security.JwtProvider;
+import com.gameduca.service.AlumnoService;
+import com.gameduca.service.ProfesorService;
 import com.gameduca.service.RolService;
 import com.gameduca.service.UsuarioService;
 
@@ -44,6 +48,12 @@ public class AuthController {
 
     @Autowired
     UsuarioService usuarioService;
+    
+    @Autowired
+    AlumnoService alumnoService;
+    
+    @Autowired
+    ProfesorService profesorService;
 
     @Autowired
     RolService rolService;
@@ -66,13 +76,20 @@ public class AuthController {
         Set<Rol> roles = new HashSet<>();
        
             switch (rol) {
-                case "ROL_ADMIN":
+                case "ROLE_ADMIN":
                     Rol rolAdmin = rolService.getByRolNombre(RolNombre.ROLE_ADMIN).get();
                     roles.add(rolAdmin);
+                    Profesor profesor = new Profesor();
+                    profesor.setUsuario(usuario);
+                    profesorService.crearProfesor(profesor);
                     break;
                 default:
                     Rol rolUser = rolService.getByRolNombre(RolNombre.ROLE_USER).get();
                     roles.add(rolUser);
+                    Alumno alumno = new Alumno();
+                    alumno.setPuntos(0);
+                    alumno.setUsuario(usuario);
+                    alumnoService.crearAlumno(alumno);
             }
         
         usuario.setRoles(roles);
@@ -94,26 +111,28 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<JwtDTO> login(@Valid @RequestBody LoginUsuario loginUsuario, BindingResult bindingResult){
+    public ResponseEntity<JwtDTO> login(@Valid @RequestBody LoginUsuario loginUsuario, BindingResult bindingResult) throws Exception{
         if(bindingResult.hasErrors())
             return new ResponseEntity("campos vacíos o email inválido", HttpStatus.BAD_REQUEST);
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(loginUsuario.getNombreUsuario(), loginUsuario.getPassword())
-        );
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        String jwt = jwtProvider.generateToken(authentication);
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        try {
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(loginUsuario.getNombreUsuario(), loginUsuario.getPassword()));
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            String jwt = jwtProvider.generateToken(authentication);
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 
-        // Obtener el objeto de usuario
-        Optional<Usuario> optionalUser = usuarioService.getByNombreUsuario(userDetails.getUsername());
-        if (optionalUser.isPresent()) {
-            Usuario user = optionalUser.get();
-            JwtDTO jwtDTO = new JwtDTO(jwt, user, userDetails.getAuthorities());
-            return new ResponseEntity<JwtDTO>(jwtDTO, HttpStatus.OK);
-        } else {
-            return new ResponseEntity("Usuario no encontrado", HttpStatus.NOT_FOUND);
+            // Obtener el objeto de usuario
+            Optional<Usuario> optionalUser = usuarioService.getByNombreUsuario(userDetails.getUsername());
+            if (optionalUser.isPresent()) {
+                Usuario user = optionalUser.get();
+                JwtDTO jwtDTO = new JwtDTO(jwt, user, userDetails.getAuthorities());
+                return new ResponseEntity<JwtDTO>(jwtDTO, HttpStatus.OK);
+            } else {
+                return new ResponseEntity("Usuario no encontrado", HttpStatus.NOT_FOUND);
+            }
+        } catch (Exception e) {
+        	throw new Exception(e);
         }
-
     }
 
 //    @PostMapping("/login")

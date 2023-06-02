@@ -35,37 +35,37 @@ public class GamEducaApplication {
 //        };  
 //    }
 	
-	@Bean
-    CommandLineRunner init(UserRepository userRepository) {
-        return args -> {
-            Stream.of("John", "Julie", "Jennifer", "Helen", "Rachel").forEach(name -> {
-                Usero user = new Usero(name, name.toLowerCase() + "@domain.com");
-                userRepository.save(user);
-            });
-            userRepository.findAll().forEach(System.out::println);
-        };
-    }
-	
-	@Bean
-    CommandLineRunner init2(AsignaturaRepository asignaturaRepository) {
-        return args -> {
-            Stream.of("Matematicas", "Lengua", "Fisica").forEach(name -> {
-                Asignatura asignatura = new Asignatura(name, name.toLowerCase() + " La asignatura", "1");
-                asignaturaRepository.save(asignatura);
-            });
-            asignaturaRepository.findAll().forEach(System.out::println);
-        };
-    }
-	
-	@Bean
-    CommandLineRunner init3(RolRepository rolRepository) {
-        return args -> {
-            Stream.of(RolNombre.ROLE_ADMIN, RolNombre.ROLE_USER).forEach(name -> {
-                Rol rol = new Rol(name);
-                rolRepository.save(rol);
-            });
-            rolRepository.findAll().forEach(System.out::println);
-        };
-    }
+//	@Bean
+//    CommandLineRunner init(UserRepository userRepository) {
+//        return args -> {
+//            Stream.of("John", "Julie", "Jennifer", "Helen", "Rachel").forEach(name -> {
+//                Usero user = new Usero(name, name.toLowerCase() + "@domain.com");
+//                userRepository.save(user);
+//            });
+//            userRepository.findAll().forEach(System.out::println);
+//        };
+//    }
+//	
+//	@Bean
+//    CommandLineRunner init2(AsignaturaRepository asignaturaRepository) {
+//        return args -> {
+//            Stream.of("Matematicas", "Lengua", "Fisica").forEach(name -> {
+//                Asignatura asignatura = new Asignatura(name, name.toLowerCase() + " La asignatura", "1", "aAbc421");
+//                asignaturaRepository.save(asignatura);
+//            });
+//            asignaturaRepository.findAll().forEach(System.out::println);
+//        };
+//    }
+//	
+//	@Bean
+//    CommandLineRunner init3(RolRepository rolRepository) {
+//        return args -> {
+//            Stream.of(RolNombre.ROLE_ADMIN, RolNombre.ROLE_USER).forEach(name -> {
+//                Rol rol = new Rol(name);
+//                rolRepository.save(rol);
+//            });
+//            rolRepository.findAll().forEach(System.out::println);
+//        };
+//    }
 
 }

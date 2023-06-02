@@ -6,20 +6,24 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-public class Usuario extends BaseEntity{
+@Table(name = "usuario")
+public class Usuario{
 
     @NotNull
+    @Column(name="NOMBRE")
     private String nombre;
 
+    @Id
     @NotNull
-    @Column(unique = true)
+    @Column(name="NOMBREUSUARIO")
     private String nombreUsuario;
 
     @NotNull
-    @Column(unique = true)
+    @Column(name="EMAIL")
     private String email;
 
     @NotNull
+    @Column(name="PASSWORD")
     private String password;
 
     @NotNull

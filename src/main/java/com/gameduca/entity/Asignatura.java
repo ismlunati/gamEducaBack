@@ -36,14 +36,26 @@ public class Asignatura extends BaseEntity {
 	@Column(name="CODIGO")
 	String codigo;
 	
-	@JsonBackReference
+	@JsonBackReference(value="asignatura-profesor")
     @ManyToOne
     @JoinColumn(name = "PROFESOR_ID")
     private Profesor profesor;
+	
+    @JsonManagedReference(value="asignatura-artefacto")
+    @OneToMany(mappedBy = "asignatura")
+    private List<Artefacto> artefactos;
+    
+    @JsonManagedReference(value="asignatura-tema")
+    @OneToMany(mappedBy = "asignatura")
+    private List<Tema> temas;
 
-    @JsonManagedReference
+    @JsonManagedReference(value="asignatura-alumnoasignatura")
     @OneToMany(mappedBy = "asignatura")
     private List<AlumnoAsignatura> alumnoAsignaturas;
+    
+    @OneToMany(mappedBy = "asignatura")
+    @JsonManagedReference(value="reto-asignatura")
+    private List<Reto> retos;
 	
 	public Asignatura(){
 		
@@ -103,6 +115,30 @@ public class Asignatura extends BaseEntity {
 
 	public void setAlumnoAsignaturas(List<AlumnoAsignatura> alumnoAsignaturas) {
 		this.alumnoAsignaturas = alumnoAsignaturas;
+	}
+
+	public List<Artefacto> getArtefactos() {
+		return artefactos;
+	}
+
+	public void setArtefactos(List<Artefacto> artefactos) {
+		this.artefactos = artefactos;
+	}
+
+	public List<Tema> getTemas() {
+		return temas;
+	}
+
+	public void setTemas(List<Tema> temas) {
+		this.temas = temas;
+	}
+
+	public List<Reto> getRetos() {
+		return retos;
+	}
+
+	public void setRetos(List<Reto> retos) {
+		this.retos = retos;
 	}
 	
 }

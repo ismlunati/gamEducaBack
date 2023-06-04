@@ -14,13 +14,16 @@ public class AlumnoAsignatura extends BaseEntity {
 
 	@Column(name="ESTADO")
     private String estado;
+	
+	@Column(name="PUNTOS")
+    private Integer puntos;
 
-	@JsonBackReference
+	@JsonBackReference(value="alumno-alumnoasignatura")
     @ManyToOne
     @JoinColumn(name = "ALUMNO_ID")
     private Alumno alumno;
 
-	@JsonBackReference
+	@JsonBackReference(value="asignatura-alumnoasignatura")
     @ManyToOne
     @JoinColumn(name = "ASIGNATURA_ID")
     private Asignatura asignatura;
@@ -48,10 +51,19 @@ public class AlumnoAsignatura extends BaseEntity {
 	public void setAsignatura(Asignatura asignatura) {
 		this.asignatura = asignatura;
 	}
+	
+	public Integer getPuntos() {
+		return puntos;
+	}
 
-	public AlumnoAsignatura(String estado, Alumno alumno, Asignatura asignatura) {
+	public void setPuntos(Integer puntos) {
+		this.puntos = puntos;
+	}
+
+	public AlumnoAsignatura(String estado, Integer puntos, Alumno alumno, Asignatura asignatura) {
 		super();
 		this.estado = estado;
+		this.puntos = puntos;
 		this.alumno = alumno;
 		this.asignatura = asignatura;
 	}

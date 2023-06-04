@@ -14,11 +14,13 @@ import org.springframework.transaction.annotation.Transactional;
 import com.gameduca.entity.Alumno;
 import com.gameduca.entity.AlumnoAsignatura;
 import com.gameduca.entity.Asignatura;
+import com.gameduca.entity.Profesor;
 import com.gameduca.entity.Rol;
 import com.gameduca.entity.RolNombre;
 import com.gameduca.repository.AlumnoAsignaturaRepository;
 import com.gameduca.repository.AlumnoRepository;
 import com.gameduca.repository.AsignaturaRepository;
+import com.gameduca.repository.ProfesorRepository;
 
 @Service
 @Transactional
@@ -29,6 +31,9 @@ public class AsignaturaService {
     
     @Autowired
     private AlumnoRepository alumnoRepository;
+    
+    @Autowired
+    private ProfesorRepository profesorRepository;
     
     @Autowired
     private AlumnoAsignaturaRepository alumnoAsignaturaRepository;
@@ -54,6 +59,11 @@ public class AsignaturaService {
     		codigo = generateRandomCode();
     	}
     	asignatura.setCodigo(codigo);
+    	UserDetails usuario = (UserDetails) SecurityContextHolder.getContext().getAuthentication()
+				.getPrincipal();
+    	Profesor profesor = profesorRepository.findProfesorByNombre(usuario.getUsername());
+    	asignatura.setProfesor(profesor);
+    	//usuario.getUsername()
     	asignaturaRepository.save(asignatura);
     }
     
@@ -88,7 +98,7 @@ public class AsignaturaService {
     	Asignatura asignatura = asignaturaRepository.findAsignaturaByCodigo(codigo);
     	if(null != asignatura) {
     		Alumno alumno = alumnoRepository.findAlumnoByNombreUsuario(nombreUsuario);
-    		AlumnoAsignatura alumnoAsignatura = new AlumnoAsignatura("Peticion", alumno, asignatura);
+    		AlumnoAsignatura alumnoAsignatura = new AlumnoAsignatura("Peticion", 0, alumno, asignatura);
     		alumnoAsignaturaRepository.save(alumnoAsignatura);
     		return true;
     	} else {
@@ -96,6 +106,21 @@ public class AsignaturaService {
     	}
     }
     
+    public List<Alumno> buscarSolicitudesPendientes(Long id){
+    	List<Alumno> listaAlumnosPendientes = alumnoAsignaturaRepository.findAlumnosPendientesEnAsignatura(id);
+    	return listaAlumnosPendientes;
+    }
+    
+    public boolean aceptarRechazarAlumno(Long idAsignatura, Long idAlumno, boolean aceptado) {
+    	AlumnoAsignatura alumnoAsignatura = alumnoAsignaturaRepository.findAlumnoAsignaturaByIdAlumnoIdAsignatura(idAsignatura, idAlumno);
+    	if(aceptado) {
+    		alumnoAsignatura.setEstado("Aceptado");
+    	} else {
+    		alumnoAsignatura.setEstado("Rechazado");
+    	}
+    	alumnoAsignaturaRepository.save(alumnoAsignatura);
+    	return true;
+    }
     public static String generateRandomCode() {
         String letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
         String numbers = "0123456789";

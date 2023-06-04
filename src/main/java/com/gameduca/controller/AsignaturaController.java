@@ -1,5 +1,6 @@
 package com.gameduca.controller;
 
+import com.gameduca.entity.Alumno;
 import com.gameduca.entity.Asignatura;
 import com.gameduca.service.AsignaturaService;
 
@@ -35,19 +36,19 @@ public class AsignaturaController {
     	asignaturaService.añadirAsignatura(asignatura);
     }    
 
-    @PutMapping("/asignaturas/{id}")
-    public Asignatura updateAsignatura(@PathVariable Long id, @RequestBody Asignatura newAsignatura) {
-        return asignaturaService.editarAsignatura(id, newAsignatura);
+    @PutMapping("/asignaturas/{idAsignatura}")
+    public Asignatura updateAsignatura(@PathVariable Long idAsignatura, @RequestBody Asignatura newAsignatura) {
+        return asignaturaService.editarAsignatura(idAsignatura, newAsignatura);
     }
 
-    @DeleteMapping("/asignaturas/{id}")
-    public void deleteAsignatura(@PathVariable Long id) {
-    	asignaturaService.borrarAsignatura(id);
+    @DeleteMapping("/asignaturas/{idAsignatura}")
+    public void deleteAsignatura(@PathVariable Long idAsignatura) {
+    	asignaturaService.borrarAsignatura(idAsignatura);
     }
     
-    @GetMapping("/asignaturas/{id}")
-    public Asignatura getAsignatura(@PathVariable Long id) throws Exception {
-    	return asignaturaService.buscarAsignaturaPorId(id);
+    @GetMapping("/asignaturas/{idAsignatura}")
+    public Asignatura getAsignatura(@PathVariable Long idAsignatura) throws Exception {
+    	return asignaturaService.buscarAsignaturaPorId(idAsignatura);
     }
     
     @PostMapping("/asignaturas/acceder")
@@ -57,5 +58,19 @@ public class AsignaturaController {
     	boolean bool = asignaturaService.accederAsignatura(usuario.getUsername(), codigo);
         return bool;
     }
-
+    
+    @GetMapping("asignaturas/{idAsignatura}/listaSolicitudesPendientes")
+    public List<Alumno> getAsignaturaListaSolicitudes(@PathVariable Long idAsignatura) throws Exception {
+    	return asignaturaService.buscarSolicitudesPendientes(idAsignatura);
+    }
+    
+    @PostMapping("asignaturas/{idAsignatura}/{idAlumno}/aceptar")
+    public boolean aceptarAlumnoEnAsignatura(@PathVariable Long idAsignatura, @PathVariable Long idAlumno) throws Exception {
+    	return asignaturaService.aceptarRechazarAlumno(idAsignatura, idAlumno, true);
+    }
+    
+    @PostMapping("asignaturas/{idAsignatura}/{idAlumno}/rechazar")
+    public boolean rechazarAlumnoEnAsignatura(@PathVariable Long idAsignatura, @PathVariable Long idAlumno) throws Exception {
+    	return asignaturaService.aceptarRechazarAlumno(idAsignatura, idAlumno, false);
+    }
 }

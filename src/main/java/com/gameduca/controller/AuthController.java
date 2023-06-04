@@ -87,7 +87,6 @@ public class AuthController {
                     Rol rolUser = rolService.getByRolNombre(RolNombre.ROLE_USER).get();
                     roles.add(rolUser);
                     Alumno alumno = new Alumno();
-                    alumno.setPuntos(0);
                     alumno.setUsuario(usuario);
                     alumnoService.crearAlumno(alumno);
             }

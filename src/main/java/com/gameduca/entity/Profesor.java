@@ -19,7 +19,7 @@ public class Profesor extends BaseEntity{
     @JoinColumn(name = "NOMBREUSUARIO", referencedColumnName = "NOMBREUSUARIO")
 	private Usuario usuario;
 	
-	@JsonManagedReference
+	@JsonManagedReference(value="asignatura-profesor")
     @OneToMany(mappedBy = "profesor")
     private List<Asignatura> asignaturas;
 

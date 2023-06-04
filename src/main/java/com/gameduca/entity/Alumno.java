@@ -17,26 +17,14 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 @Entity
 @Table(name = "alumno")
 public class Alumno extends BaseEntity{
-	
-    @NotNull
-    @Column(name="PUNTOS")
-    private Integer puntos;
     
 	@OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "NOMBREUSUARIO", referencedColumnName = "NOMBREUSUARIO")
 	private Usuario usuario;
     
-    @JsonManagedReference
+    @JsonManagedReference(value="alumno-alumnoasignatura")
     @OneToMany(mappedBy = "alumno")
     private List<AlumnoAsignatura> alumnoAsignaturas;
-
-	public Integer getPuntos() {
-		return puntos;
-	}
-
-	public void setPuntos(Integer puntos) {
-		this.puntos = puntos;
-	}
 
 	public List<AlumnoAsignatura> getAlumnoAsignaturas() {
 		return alumnoAsignaturas;
@@ -54,11 +42,6 @@ public class Alumno extends BaseEntity{
 
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
-	}
-
-	public Alumno(@NotNull Integer puntos) {
-		super();
-		this.puntos = puntos;
 	}
 	
     public Alumno() {}

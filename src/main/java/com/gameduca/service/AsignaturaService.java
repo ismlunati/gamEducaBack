@@ -98,7 +98,7 @@ public class AsignaturaService {
     	Asignatura asignatura = asignaturaRepository.findAsignaturaByCodigo(codigo);
     	if(null != asignatura) {
     		Alumno alumno = alumnoRepository.findAlumnoByNombreUsuario(nombreUsuario);
-    		AlumnoAsignatura alumnoAsignatura = new AlumnoAsignatura("Peticion", 0, alumno, asignatura);
+    		AlumnoAsignatura alumnoAsignatura = new AlumnoAsignatura("Pendiente", 0, alumno, asignatura);
     		alumnoAsignaturaRepository.save(alumnoAsignatura);
     		return true;
     	} else {

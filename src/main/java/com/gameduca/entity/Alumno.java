@@ -1,11 +1,13 @@
 package com.gameduca.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -25,6 +27,13 @@ public class Alumno extends BaseEntity{
     @JsonManagedReference(value="alumno-alumnoasignatura")
     @OneToMany(mappedBy = "alumno")
     private List<AlumnoAsignatura> alumnoAsignaturas;
+    
+    @OneToMany(mappedBy = "alumno", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<AlumnoReto> alumnoRetos = new ArrayList<>();
+    
+    @OneToMany(mappedBy = "alumno", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Compra> compras = new ArrayList<>();
+
 
 	public List<AlumnoAsignatura> getAlumnoAsignaturas() {
 		return alumnoAsignaturas;
@@ -33,8 +42,6 @@ public class Alumno extends BaseEntity{
 	public void setAlumnoAsignaturas(List<AlumnoAsignatura> alumnoAsignaturas) {
 		this.alumnoAsignaturas = alumnoAsignaturas;
 	}
-
-	
 	
 	public Usuario getUsuario() {
 		return usuario;
@@ -43,7 +50,23 @@ public class Alumno extends BaseEntity{
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
 	}
-	
-    public Alumno() {}
+
+	public List<AlumnoReto> getAlumnoRetos() {
+		return alumnoRetos;
+	}
+
+	public void setAlumnoRetos(List<AlumnoReto> alumnoRetos) {
+		this.alumnoRetos = alumnoRetos;
+	}
+
+	public List<Compra> getCompras() {
+		return compras;
+	}
+
+	public void setCompras(List<Compra> compras) {
+		this.compras = compras;
+	}
+
+	public Alumno() {}
 
 }

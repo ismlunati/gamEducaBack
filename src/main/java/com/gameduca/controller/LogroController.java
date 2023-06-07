@@ -12,33 +12,33 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.gameduca.entity.Logro;
-//import com.gameduca.service.LogroService;
-//
-//
-//@RestController
-//public class LogroController {
-//	
-//	@Autowired
-//	LogroService logroService;
-//	
-//    @GetMapping("/asignaturas/{idAsignatura}/logros")
-//    public List<Logro> obtenerLogrosDeUnaAsignatura(@PathVariable Long idAsignatura) throws Exception{
-//    	return logroService.obtenerLogrosDeUnaAsignatura(idAsignatura);
-//    }
-//	
-//    @PostMapping("/asignaturas/{idAsignatura}/logros")
-//    public void añadirLogro(@RequestBody Logro logro, @PathVariable Long idAsignatura) throws Exception {
-//    	logroService.añadirLogro(logro, idAsignatura);
-//    } 
-//    
-//    @PutMapping("/asignaturas/{idAsignatura}/logros/{idLogro}")
-//    public Logro editarLogro(@PathVariable Long idAsignatura, @PathVariable Long idLogro, @RequestBody Logro newLogro) throws Exception {
-//        return logroService.editarLogro(idAsignatura, idLogro, newLogro);
-//    }
-//    
-//    @DeleteMapping("/asignaturas/{idAsignatura}/Logros/{idLogro}")
-//    public void deleteLogro(@PathVariable Long idLogro) {
-//    	logroService.borrarLogro(idLogro);
-//    }
-//
-//}
+import com.gameduca.service.LogroService;
+
+
+@RestController
+public class LogroController {
+	
+	@Autowired
+	LogroService logroService;
+	
+    @GetMapping("/asignaturas/{idAsignatura}/logros")
+    public List<Logro> obtenerLogrosDeUnaAsignatura(@PathVariable Long idAsignatura) throws Exception{
+    	return logroService.obtenerLogrosDeUnAlumno(idAsignatura);
+    }
+	
+    @PostMapping("/asignaturas/{idAsignatura}/logros")
+    public void añadirLogro(@RequestBody Logro logro) throws Exception {
+    	logroService.añadirLogro(logro);
+    } 
+    
+    @PutMapping("/asignaturas/{idAsignatura}/logros/{idLogro}")
+    public Logro editarLogro(@PathVariable Long idLogro, @RequestBody Logro newLogro) throws Exception {
+        return logroService.editarLogro(idLogro, newLogro);
+    }
+    
+    @DeleteMapping("/asignaturas/{idAsignatura}/Logros/{idLogro}")
+    public void deleteLogro(@PathVariable Long idLogro) {
+    	logroService.borrarLogro(idLogro);
+    }
+
+}

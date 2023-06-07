@@ -1,57 +1,71 @@
 package com.gameduca.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import com.gameduca.entity.Alumno;
 import com.gameduca.entity.Asignatura;
 import com.gameduca.entity.Logro;
+import com.gameduca.entity.Reto;
+import com.gameduca.entity.RolNombre;
+import com.gameduca.repository.AlumnoRetoRepository;
 import com.gameduca.repository.LogroRepository;
 
-//@Service
-//@Transactional
-//public class LogroService {
-//	
-//    @Autowired
-//    LogroRepository logroRepository;
-//    
-//    @Autowired
-//    private AsignaturaService asignaturaService;
-//    
-//
-//    public List<Logro> obtenerLogrosDeUnAlumno(@PathVariable Long asignaturaId) throws Exception {
-//    	Asignatura asignatura = asignaturaService.buscarAsignaturaPorId(asignaturaId);
-//    	return asignatura.getLogros();
-//    }
-//    
-//    public void añadirLogro(Logro logro, Long asignaturaId) throws Exception {
-//    	Asignatura asignatura = asignaturaService.buscarAsignaturaPorId(asignaturaId);
-//    	logro.setAsignatura(asignatura);
-//    	logroRepository.save(logro);
-//    }
-//    
-//    public Logro editarLogro(Long idAsignatura, Long idLogro, Logro newLogro) throws Exception {
-//    	Asignatura asignatura = asignaturaService.buscarAsignaturaPorId(idAsignatura);
-//    	return logroRepository.findById(idLogro)
-//    	          .map(logro -> {
-//    	        	  logro.setNombre(newLogro.getNombre());
-//    	        	  logro.setDescripcion(newLogro.getDescripcion());
-//    	        	  logro.setPuntosOtorgados(newLogro.getPuntosOtorgados());
-//    	        	  logro.setLogro(newLogro.getLogro());
-//    	        	  logro.setTema(newLogro.getTema());
-//    	        	  logro.setAsignatura(asignatura);
-//    	            return logroRepository.save(logro);
-//    	          })
-//    	          .orElseGet(() -> {
-//    	            newLogro.setId(idLogro);
-//    	            return logroRepository.save(newLogro);
-//    	          });
-//    }
-//    
-//    public void borrarLogro(Long id) {
-//    	logroRepository.deleteById(id);
-//    }
-//}
+@Service
+@Transactional
+public class LogroService {
+	
+    @Autowired
+    LogroRepository logroRepository;
+    
+    @Autowired
+    AlumnoRetoRepository alumnoRetoRepository;
+
+    public List<Logro> obtenerLogrosDeUnAlumno(Long idAsignatura) throws Exception {
+    	List<Logro> listaLogros = new ArrayList<>();
+    	UserDetails usuario = (UserDetails) SecurityContextHolder.getContext().getAuthentication()
+				.getPrincipal();
+    	String rol = usuario.getAuthorities().iterator().next().getAuthority();
+    	String nombreUsuario = usuario.getUsername();
+    	if(rol.equals(RolNombre.ROLE_USER.name())) {
+    		List<Reto> listaRetos = alumnoRetoRepository.findRetosByAlumnoyAsignaturas(nombreUsuario, idAsignatura);
+    		for(Reto reto: listaRetos) {
+    			Logro logro = reto.getLogro();
+    			if(!listaLogros.contains(logro)) {
+    				listaLogros.add(logro);
+    			}
+    		}
+    	}
+		return listaLogros;
+    }
+    
+    public void añadirLogro(Logro logro) throws Exception {
+    	logroRepository.save(logro);
+    }
+    
+    public Logro editarLogro(Long idLogro, Logro newLogro) throws Exception {
+    	return logroRepository.findById(idLogro)
+    	          .map(logro -> {
+    	        	  logro.setNombre(newLogro.getNombre());
+    	        	  logro.setDescripcion(newLogro.getDescripcion());
+    	        	  logro.setRetos(newLogro.getRetos());
+    	        	  logro.setArtefactos(newLogro.getArtefactos());
+    	            return logroRepository.save(logro);
+    	          })
+    	          .orElseGet(() -> {
+    	            newLogro.setId(idLogro);
+    	            return logroRepository.save(newLogro);
+    	          });
+    }
+    
+    public void borrarLogro(Long id) {
+    	logroRepository.deleteById(id);
+    }
+}

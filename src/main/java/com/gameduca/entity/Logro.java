@@ -1,9 +1,13 @@
 package com.gameduca.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinTable;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
@@ -21,21 +25,19 @@ public class Logro extends BaseEntity {
     @Column(name = "DESCRIPCION")
     @NotEmpty(message = "La descripción no puede estar vacía")
     String descripcion;
-
-    @Column(name = "BENEFICIO")
-    String beneficio;
-
-    @Column(name = "ESTADO")
-    @NotEmpty(message = "El estado no puede estar vacío")
-    boolean estado;
     
     @OneToMany(mappedBy = "logro")
     @JsonManagedReference(value="reto-logro")
     private List<Reto> retos;
     
-    @OneToMany(mappedBy = "logro")
-    @JsonManagedReference(value="logro-artefacto")
-    private List<Artefacto> artefactosDesbloqueados;
+    @ManyToMany
+    @JoinTable(name = "logros_artefactos",
+        joinColumns = @JoinColumn(name = "logro_id"),
+        inverseJoinColumns = @JoinColumn(name = "artefacto_id")
+    )
+    private List<Artefacto> artefactos = new ArrayList<>();
+    
+    
 
 	public String getNombre() {
 		return nombre;
@@ -53,22 +55,6 @@ public class Logro extends BaseEntity {
 		this.descripcion = descripcion;
 	}
 
-	public String getBeneficio() {
-		return beneficio;
-	}
-
-	public void setBeneficio(String beneficio) {
-		this.beneficio = beneficio;
-	}
-
-	public boolean isEstado() {
-		return estado;
-	}
-
-	public void setEstado(boolean estado) {
-		this.estado = estado;
-	}
-
 	public List<Reto> getRetos() {
 		return retos;
 	}
@@ -77,25 +63,31 @@ public class Logro extends BaseEntity {
 		this.retos = retos;
 	}
 
-	public List<Artefacto> getArtefactosDesbloqueados() {
-		return artefactosDesbloqueados;
+	public List<Artefacto> getArtefactos() {
+		return artefactos;
 	}
 
-	public void setArtefactosDesbloqueados(List<Artefacto> artefactosDesbloqueados) {
-		this.artefactosDesbloqueados = artefactosDesbloqueados;
+	public void setArtefactos(List<Artefacto> artefactos) {
+		this.artefactos = artefactos;
+	}
+
+	public Logro(@NotEmpty(message = "El nombre no puede estar vacío") String nombre,
+			@NotEmpty(message = "La descripción no puede estar vacía") String descripcion, List<Reto> retos,
+			List<Artefacto> artefactos) {
+		super();
+		this.nombre = nombre;
+		this.descripcion = descripcion;
+		this.retos = retos;
+		this.artefactos = artefactos;
 	}
 
 	public Logro(@NotEmpty(message = "El nombre no puede estar vacío") String nombre,
 			@NotEmpty(message = "La descripción no puede estar vacía") String descripcion, String beneficio,
-			@NotEmpty(message = "El estado no puede estar vacío") boolean estado, List<Reto> retos,
-			List<Artefacto> artefactosDesbloqueados) {
+			@NotEmpty(message = "El estado no puede estar vacío") boolean estado, List<Reto> retos) {
 		super();
 		this.nombre = nombre;
 		this.descripcion = descripcion;
-		this.beneficio = beneficio;
-		this.estado = estado;
 		this.retos = retos;
-		this.artefactosDesbloqueados = artefactosDesbloqueados;
 	}
     
 	public Logro() {}

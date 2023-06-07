@@ -44,6 +44,11 @@ public class RetoService {
     	        	  reto.setPuntosOtorgados(newReto.getPuntosOtorgados());
     	        	  reto.setLogro(newReto.getLogro());
     	        	  reto.setTema(newReto.getTema());
+    	        	  reto.setTemporal(newReto.isTemporal());
+    	        	  if(newReto.isTemporal()) {
+    	        		  reto.setFechaInicio(newReto.getFechaInicio());
+    	        		  reto.setFechaFin(newReto.getFechaFin());
+    	        	  }
     	        	  reto.setAsignatura(asignatura);
     	            return retoRepository.save(reto);
     	          })

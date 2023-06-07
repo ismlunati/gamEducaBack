@@ -18,5 +18,9 @@ public class AlumnoService {
     public void crearAlumno(Alumno alumno) {
     	alumnoRepository.save(alumno);
     }
+    
+    public Alumno obtenerAlumnoPorNombre(String nombreAlumno) {
+    	return alumnoRepository.findAlumnoByNombreUsuario(nombreAlumno);
+    }
 
 }

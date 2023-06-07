@@ -1,11 +1,16 @@
 package com.gameduca.entity;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -46,11 +51,12 @@ public class Artefacto extends BaseEntity{
     @JoinColumn(name = "ASIGNATURA_ID")
     private Asignatura asignatura;
     
-    @ManyToOne
-    @JoinColumn(name = "LOGRO_ID")
-    @JsonBackReference(value="logro-artefacto")
-    private Logro logro;
+    @ManyToMany(mappedBy = "artefactos")
+    private List<Logro> logros = new ArrayList<>();
 
+    @OneToMany(mappedBy = "artefacto", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Compra> compras = new ArrayList<>();
+    
 	public String getNombre() {
 		return nombre;
 	}
@@ -114,13 +120,21 @@ public class Artefacto extends BaseEntity{
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
 	}
-	
-	public Logro getLogro() {
-		return logro;
+
+	public List<Logro> getLogros() {
+		return logros;
 	}
 
-	public void setLogro(Logro logro) {
-		this.logro = logro;
+	public void setLogros(List<Logro> logros) {
+		this.logros = logros;
+	}
+	
+	public List<Compra> getCompras() {
+		return compras;
+	}
+
+	public void setCompras(List<Compra> compras) {
+		this.compras = compras;
 	}
 
 	public Artefacto(@NotNull String nombre, @NotNull String descripcion, @NotNull Integer costePuntos, @NotNull String estado,

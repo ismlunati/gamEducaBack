@@ -52,7 +52,7 @@ public class AsignaturaService {
 		return listaAsignaturas;
     }
     
-    public void añadirAsignatura(Asignatura asignatura) {
+    public Asignatura añadirAsignatura(Asignatura asignatura) {
     	String codigo = null;
     	List<String> listaCodigos = asignaturaRepository.findAllCodigoAsignatura();
     	while(null == codigo || listaCodigos.contains(codigo)) {
@@ -65,6 +65,7 @@ public class AsignaturaService {
     	asignatura.setProfesor(profesor);
     	//usuario.getUsername()
     	asignaturaRepository.save(asignatura);
+    	return asignatura;
     }
     
     public Asignatura editarAsignatura(Long id, Asignatura newAsignatura) {

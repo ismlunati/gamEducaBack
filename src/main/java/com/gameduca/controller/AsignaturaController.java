@@ -32,8 +32,8 @@ public class AsignaturaController {
     }
 
     @PostMapping("/asignaturas")
-    void addAsignatura(@RequestBody Asignatura asignatura) {
-    	asignaturaService.añadirAsignatura(asignatura);
+    public Asignatura addAsignatura(@RequestBody Asignatura asignatura) {
+    	return asignaturaService.añadirAsignatura(asignatura);
     }    
 
     @PutMapping("/asignaturas/{idAsignatura}")

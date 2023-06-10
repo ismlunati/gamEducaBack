@@ -28,9 +28,11 @@ public class Alumno extends BaseEntity{
     @OneToMany(mappedBy = "alumno")
     private List<AlumnoAsignatura> alumnoAsignaturas;
     
+    @JsonManagedReference(value="alumno-alumnoreto")
     @OneToMany(mappedBy = "alumno", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<AlumnoReto> alumnoRetos = new ArrayList<>();
     
+    @JsonManagedReference(value="compra-alumno")
     @OneToMany(mappedBy = "alumno", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Compra> compras = new ArrayList<>();
 

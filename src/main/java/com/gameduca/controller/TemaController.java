@@ -26,6 +26,11 @@ public class TemaController {
     public List<Tema> obtenerTemasDeUnaAsignatura(@PathVariable Long idAsignatura) throws Exception{
     	return temaService.obtenerTemasDeUnaAsignatura(idAsignatura);
     }
+    
+    @GetMapping("/asignaturas/{idAsignatura}/temas/{idTema}")
+    public Tema obtenerTema(@PathVariable Long idTema) throws Exception{
+    	return temaService.obtenerTema(idTema);
+    }
 	
     @PostMapping("/asignaturas/{idAsignatura}/temas")
     public void añadirTema(@RequestBody Tema tema, @PathVariable Long idAsignatura) throws Exception {

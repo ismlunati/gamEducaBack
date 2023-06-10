@@ -2,6 +2,7 @@ package com.gameduca.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -26,16 +27,27 @@ public class LogroService {
     LogroRepository logroRepository;
     
     @Autowired
-    AlumnoRetoRepository alumnoRetoRepository;
+    RetoService retoService;
+    
+    public List<Logro> obtenerLogrosDeUnaAsignatura(Long idAsignatura) throws Exception {
+    	List<Logro> listaLogros = new ArrayList<>();
+		List<Reto> listaRetosDeAsignatura = retoService.obtenerRetosDeUnaAsignatura(idAsignatura);
+		for(Reto reto: listaRetosDeAsignatura) {
+			Logro logro = reto.getLogro();
+			if(!listaLogros.contains(logro)) {
+				listaLogros.add(logro);
+			}
+		}
+		return listaLogros;
+    }
 
     public List<Logro> obtenerLogrosDeUnAlumno(Long idAsignatura) throws Exception {
     	List<Logro> listaLogros = new ArrayList<>();
     	UserDetails usuario = (UserDetails) SecurityContextHolder.getContext().getAuthentication()
 				.getPrincipal();
     	String rol = usuario.getAuthorities().iterator().next().getAuthority();
-    	String nombreUsuario = usuario.getUsername();
     	if(rol.equals(RolNombre.ROLE_USER.name())) {
-    		List<Reto> listaRetos = alumnoRetoRepository.findRetosByAlumnoyAsignaturas(nombreUsuario, idAsignatura);
+    		List<Reto> listaRetos = retoService.obtenerRetosDeUnAlumno(idAsignatura);
     		for(Reto reto: listaRetos) {
     			Logro logro = reto.getLogro();
     			if(!listaLogros.contains(logro)) {
@@ -44,6 +56,15 @@ public class LogroService {
     		}
     	}
 		return listaLogros;
+    }
+    
+    public Logro obtenerLogro(Long logroId) throws Exception {
+    	Optional<Logro> logro = logroRepository.findById(logroId);
+    	if(logro.isPresent()) {
+    		return logro.get();
+    	} else {
+    		return new Logro();
+    	}
     }
     
     public void añadirLogro(Logro logro) throws Exception {

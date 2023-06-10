@@ -22,6 +22,9 @@ public interface AlumnoAsignaturaRepository extends CrudRepository<AlumnoAsignat
 	
 	@Query("SELECT alumnoasignatura FROM AlumnoAsignatura alumnoasignatura where alumnoasignatura.asignatura.id =:idAsignatura and alumnoasignatura.alumno.id =:idAlumno")
 	public AlumnoAsignatura findAlumnoAsignaturaByIdAlumnoIdAsignatura(@Param("idAsignatura") Long idAsignatura, @Param("idAlumno") Long idAlumno);
+	
+	@Query("SELECT alumnoasignatura FROM AlumnoAsignatura alumnoasignatura where alumnoasignatura.asignatura.id =:idAsignatura and alumnoasignatura.alumno.usuario.nombreUsuario =:nombreAlumno")
+	public AlumnoAsignatura findAlumnoAsignaturaByNombreAlumnoIdAsignatura(@Param("idAsignatura") Long idAsignatura, @Param("nombreAlumno") String nombreAlumno);
 
 }
 

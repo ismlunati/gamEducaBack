@@ -15,9 +15,13 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
 @Table(name = "artefacto")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Artefacto extends BaseEntity{
 	
     @NotNull
@@ -51,9 +55,11 @@ public class Artefacto extends BaseEntity{
     @JoinColumn(name = "ASIGNATURA_ID")
     private Asignatura asignatura;
     
+//    @JsonManagedReference(value="logro-artefacto")
     @ManyToMany(mappedBy = "artefactos")
     private List<Logro> logros = new ArrayList<>();
 
+    @JsonManagedReference(value="compra-artefacto")
     @OneToMany(mappedBy = "artefacto", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Compra> compras = new ArrayList<>();
     

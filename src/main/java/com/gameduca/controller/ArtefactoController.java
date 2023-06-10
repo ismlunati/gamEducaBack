@@ -15,16 +15,30 @@ import com.gameduca.entity.Artefacto;
 import com.gameduca.entity.Tema;
 import com.gameduca.service.ArtefactoService;
 import com.gameduca.service.AsignaturaService;
+import com.gameduca.service.CompraService;
 
 @RestController
 public class ArtefactoController {
 
 	@Autowired
-	 ArtefactoService artefactoService;
+	ArtefactoService artefactoService;
+	
+    @Autowired
+    private CompraService compraService;
 	
     @GetMapping("/asignaturas/{idAsignatura}/artefactos")
     public List<Artefacto> obtenerArtefactosDeUnaAsignatura(@PathVariable Long idAsignatura) throws Exception{
     	return artefactoService.obtenerArtefactosDeUnaAsignatura(idAsignatura);
+    }
+    
+    @GetMapping("/asignaturas/{idAsignatura}/artefactosAlumno")
+    public List<Artefacto> obtenerArtefactosDeUnAlumno(@PathVariable Long idAsignatura) throws Exception{
+    	return compraService.obtenerTodosArtefactosUsuario(idAsignatura);
+    }
+    
+    @GetMapping("/asignaturas/{idAsignatura}/artefactos/{idArtefacto}")
+    public Artefacto obtenerArtefacto(@PathVariable Long idArtefacto) throws Exception{
+    	return artefactoService.obtenerArtefacto(idArtefacto);
     }
 	
     @PostMapping("/asignaturas/{idAsignatura}/artefactos")

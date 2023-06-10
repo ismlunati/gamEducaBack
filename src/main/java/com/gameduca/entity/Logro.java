@@ -12,10 +12,14 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
 @Table(name = "logro")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Logro extends BaseEntity {
 
     @Column(name = "NOMBRE")
@@ -31,6 +35,7 @@ public class Logro extends BaseEntity {
     private List<Reto> retos;
     
     @ManyToMany
+//    @JsonBackReference(value="logro-artefacto")
     @JoinTable(name = "logros_artefactos",
         joinColumns = @JoinColumn(name = "logro_id"),
         inverseJoinColumns = @JoinColumn(name = "artefacto_id")

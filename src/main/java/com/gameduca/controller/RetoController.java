@@ -1,6 +1,7 @@
 package com.gameduca.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -25,6 +26,16 @@ public class RetoController {
     @GetMapping("/asignaturas/{idAsignatura}/retos")
     public List<Reto> obtenerRetosDeUnaAsignatura(@PathVariable Long idAsignatura) throws Exception{
     	return retoService.obtenerRetosDeUnaAsignatura(idAsignatura);
+    }
+    
+    @GetMapping("/asignaturas/{idAsignatura}/retosAlumno")
+    public List<Reto> obtenerRetosDeUnAlumno(@PathVariable Long idAsignatura) throws Exception{
+    	return retoService.obtenerRetosDeUnAlumno(idAsignatura);
+    }
+    
+    @GetMapping("/asignaturas/{idAsignatura}/retos/{idReto}")
+    public Reto obtenerReto(@PathVariable Long idReto) throws Exception{
+    	return retoService.obtenerReto(idReto);
     }
 	
     @PostMapping("/asignaturas/{idAsignatura}/retos")

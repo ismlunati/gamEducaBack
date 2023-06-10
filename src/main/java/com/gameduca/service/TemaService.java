@@ -1,6 +1,7 @@
 package com.gameduca.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,9 +26,18 @@ public class TemaService {
     private AsignaturaService asignaturaService;
     
 
-    public List<Tema> obtenerTemasDeUnaAsignatura(@PathVariable Long asignaturaId) throws Exception {
+    public List<Tema> obtenerTemasDeUnaAsignatura(Long asignaturaId) throws Exception {
     	Asignatura asignatura = asignaturaService.buscarAsignaturaPorId(asignaturaId);
     	return asignatura.getTemas();
+    }
+    
+    public Tema obtenerTema(Long idTema) throws Exception {
+    	Optional<Tema> tema = temaRepository.findById(idTema);
+    	if(tema.isPresent()) {
+    		return tema.get();
+    	} else {
+    		return new Tema();
+    	}
     }
     
     public void añadirTema(Tema tema, Long asignaturaId) throws Exception {

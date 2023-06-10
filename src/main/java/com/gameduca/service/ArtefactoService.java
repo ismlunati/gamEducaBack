@@ -1,6 +1,7 @@
 package com.gameduca.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,12 +25,25 @@ public class ArtefactoService {
     @Autowired
     private AsignaturaService asignaturaService;
     
-    public List<Artefacto> obtenerArtefactosDeUnaAsignatura(@PathVariable Long asignaturaId) throws Exception {
+    public List<Artefacto> obtenerArtefactosDeUnaAsignatura(Long asignaturaId) throws Exception {
     	Asignatura asignatura = asignaturaService.buscarAsignaturaPorId(asignaturaId);
     	return asignatura.getArtefactos();
     }
+
+//    public List<Artefacto> obtenerArtefactosDeUnAlumno(Long asignaturaId) throws Exception {
+//    	List<Artefacto> listaArtefacto = new ArrayList<>();
+//    	
+//    }
     
-    @PostMapping("/asignaturas/{idAsignatura}")
+    public Artefacto obtenerArtefacto(Long idArtefacto) throws Exception {
+    	Optional<Artefacto> artefacto = artefactoRepository.findById(idArtefacto);
+    	if(artefacto.isPresent()) {
+    		return artefacto.get();
+    	} else {
+    		return new Artefacto();
+    	}
+    }
+    
     public void añadirArtefacto(Artefacto artefacto, Long asignaturaId) throws Exception {
     	Asignatura asignatura = asignaturaService.buscarAsignaturaPorId(asignaturaId);
     	artefacto.setAsignatura(asignatura);

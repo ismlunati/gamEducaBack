@@ -16,6 +16,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "reto")
@@ -58,6 +59,7 @@ public class Reto extends BaseEntity {
     @JsonBackReference(value="reto-asignatura")
     private Asignatura asignatura;
     
+    @JsonManagedReference(value="reto-alumnoreto")
     @OneToMany(mappedBy = "reto", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<AlumnoReto> alumnoRetos = new ArrayList<>();
 

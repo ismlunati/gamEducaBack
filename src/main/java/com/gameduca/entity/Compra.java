@@ -7,6 +7,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 @Entity
 @Table(name = "Compras")
 public class Compra extends BaseEntity {
@@ -17,10 +21,12 @@ public class Compra extends BaseEntity {
     @Column(name = "estado")
     private String estado;
 
+    @JsonBackReference(value="compra-alumno")
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "alumno_id")
     private Alumno alumno;
 
+    @JsonBackReference(value="compra-artefacto")
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "artefacto_id")
     private Artefacto artefacto;

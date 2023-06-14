@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.gameduca.entity.Alumno;
 import com.gameduca.entity.AlumnoAsignatura;
 import com.gameduca.entity.Asignatura;
+import com.gameduca.entity.EstadoAlumnoAsignatura;
 import com.gameduca.entity.Profesor;
 import com.gameduca.entity.Rol;
 import com.gameduca.entity.RolNombre;
@@ -98,8 +99,8 @@ public class AsignaturaService {
     public boolean accederAsignatura(String nombreUsuario, String codigo) {
     	Asignatura asignatura = asignaturaRepository.findAsignaturaByCodigo(codigo);
     	if(null != asignatura) {
-    		Alumno alumno = alumnoRepository.findAlumnoByNombreUsuario(nombreUsuario);
-    		AlumnoAsignatura alumnoAsignatura = new AlumnoAsignatura("Pendiente", 0, alumno, asignatura);
+    		Alumno alumno = alumnoRepository.findAlumnoByNombreUsuario(nombreUsuario); 
+    		AlumnoAsignatura alumnoAsignatura = new AlumnoAsignatura(EstadoAlumnoAsignatura.PETICION_ENVIADA, 0, alumno, asignatura);
     		alumnoAsignaturaRepository.save(alumnoAsignatura);
     		return true;
     	} else {
@@ -115,9 +116,9 @@ public class AsignaturaService {
     public boolean aceptarRechazarAlumno(Long idAsignatura, Long idAlumno, boolean aceptado) {
     	AlumnoAsignatura alumnoAsignatura = alumnoAsignaturaRepository.findAlumnoAsignaturaByIdAlumnoIdAsignatura(idAsignatura, idAlumno);
     	if(aceptado) {
-    		alumnoAsignatura.setEstado("Aceptado");
+    		alumnoAsignatura.setEstado(EstadoAlumnoAsignatura.ACEPTADO);
     	} else {
-    		alumnoAsignatura.setEstado("Rechazado");
+    		alumnoAsignatura.setEstado(EstadoAlumnoAsignatura.RECHAZADO);
     	}
     	alumnoAsignaturaRepository.save(alumnoAsignatura);
     	return true;

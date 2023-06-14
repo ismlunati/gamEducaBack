@@ -2,6 +2,8 @@ package com.gameduca.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -14,12 +16,10 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 @Entity
 @Table(name = "Compras")
 public class Compra extends BaseEntity {
-
-    @Column(name = "cantidad")
-    private Integer cantidad;
-    
+	
+    @Enumerated(EnumType.STRING)
     @Column(name = "estado")
-    private String estado;
+    private EstadoCompra estado;
 
     @JsonBackReference(value="compra-alumno")
     @ManyToOne(fetch = FetchType.LAZY)
@@ -31,19 +31,11 @@ public class Compra extends BaseEntity {
     @JoinColumn(name = "artefacto_id")
     private Artefacto artefacto;
 
-	public Integer getCantidad() {
-		return cantidad;
-	}
-
-	public void setCantidad(Integer cantidad) {
-		this.cantidad = cantidad;
-	}
-
-	public String getEstado() {
+	public EstadoCompra getEstado() {
 		return estado;
 	}
 
-	public void setEstado(String estado) {
+	public void setEstado(EstadoCompra estado) {
 		this.estado = estado;
 	}
 

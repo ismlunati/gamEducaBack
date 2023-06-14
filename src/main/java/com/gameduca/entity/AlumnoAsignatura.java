@@ -2,6 +2,8 @@ package com.gameduca.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -12,8 +14,9 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 @Table(name="ALUMNO_ASIGNATURA")
 public class AlumnoAsignatura extends BaseEntity {
 
+    @Enumerated(EnumType.STRING)
 	@Column(name="ESTADO")
-    private String estado;
+    private EstadoAlumnoAsignatura estado;
 	
 	@Column(name="PUNTOS")
     private Integer puntos;
@@ -28,11 +31,11 @@ public class AlumnoAsignatura extends BaseEntity {
     @JoinColumn(name = "ASIGNATURA_ID")
     private Asignatura asignatura;
 
-	public String getEstado() {
+	public EstadoAlumnoAsignatura getEstado() {
 		return estado;
 	}
 
-	public void setEstado(String estado) {
+	public void setEstado(EstadoAlumnoAsignatura estado) {
 		this.estado = estado;
 	}
 
@@ -60,7 +63,7 @@ public class AlumnoAsignatura extends BaseEntity {
 		this.puntos = puntos;
 	}
 
-	public AlumnoAsignatura(String estado, Integer puntos, Alumno alumno, Asignatura asignatura) {
+	public AlumnoAsignatura(EstadoAlumnoAsignatura estado, Integer puntos, Alumno alumno, Asignatura asignatura) {
 		super();
 		this.estado = estado;
 		this.puntos = puntos;

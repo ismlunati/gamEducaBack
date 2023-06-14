@@ -3,6 +3,7 @@ package com.gameduca.entity;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinTable;
@@ -19,7 +20,7 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
 @Table(name = "logro")
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+//@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Logro extends BaseEntity {
 
     @Column(name = "NOMBRE")
@@ -30,17 +31,23 @@ public class Logro extends BaseEntity {
     @NotEmpty(message = "La descripción no puede estar vacía")
     String descripcion;
     
+    @Column(name="IMAGEN")
+    String imagen;
+    
     @OneToMany(mappedBy = "logro")
     @JsonManagedReference(value="reto-logro")
     private List<Reto> retos;
     
-    @ManyToMany
-//    @JsonBackReference(value="logro-artefacto")
-    @JoinTable(name = "logros_artefactos",
-        joinColumns = @JoinColumn(name = "logro_id"),
-        inverseJoinColumns = @JoinColumn(name = "artefacto_id")
-    )
-    private List<Artefacto> artefactos = new ArrayList<>();
+    @JsonManagedReference(value="logro-artefacto")
+    @OneToMany(mappedBy = "logro", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ArtefactoLogro> artefactoLogros = new ArrayList<>();
+    
+//    @ManyToMany
+//    @JoinTable(name = "logros_artefactos",
+//        joinColumns = @JoinColumn(name = "logro_id"),
+//        inverseJoinColumns = @JoinColumn(name = "artefacto_id")
+//    )
+//    private List<Artefacto> artefactos = new ArrayList<>();
     
     
 
@@ -60,6 +67,14 @@ public class Logro extends BaseEntity {
 		this.descripcion = descripcion;
 	}
 
+	public String getImagen() {
+		return imagen;
+	}
+
+	public void setImagen(String imagen) {
+		this.imagen = imagen;
+	}
+
 	public List<Reto> getRetos() {
 		return retos;
 	}
@@ -67,23 +82,21 @@ public class Logro extends BaseEntity {
 	public void setRetos(List<Reto> retos) {
 		this.retos = retos;
 	}
-
-	public List<Artefacto> getArtefactos() {
-		return artefactos;
+	
+	public List<ArtefactoLogro> getArtefactoLogros() {
+		return artefactoLogros;
 	}
 
-	public void setArtefactos(List<Artefacto> artefactos) {
-		this.artefactos = artefactos;
+	public void setArtefactoLogros(List<ArtefactoLogro> artefactoLogros) {
+		this.artefactoLogros = artefactoLogros;
 	}
 
 	public Logro(@NotEmpty(message = "El nombre no puede estar vacío") String nombre,
-			@NotEmpty(message = "La descripción no puede estar vacía") String descripcion, List<Reto> retos,
-			List<Artefacto> artefactos) {
+			@NotEmpty(message = "La descripción no puede estar vacía") String descripcion, List<Reto> retos) {
 		super();
 		this.nombre = nombre;
 		this.descripcion = descripcion;
 		this.retos = retos;
-		this.artefactos = artefactos;
 	}
 
 	public Logro(@NotEmpty(message = "El nombre no puede estar vacío") String nombre,

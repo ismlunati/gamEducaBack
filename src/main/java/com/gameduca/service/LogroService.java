@@ -77,7 +77,7 @@ public class LogroService {
     	        	  logro.setNombre(newLogro.getNombre());
     	        	  logro.setDescripcion(newLogro.getDescripcion());
     	        	  logro.setRetos(newLogro.getRetos());
-    	        	  logro.setArtefactos(newLogro.getArtefactos());
+    	        	  logro.setArtefactoLogros(newLogro.getArtefactoLogros());
     	            return logroRepository.save(logro);
     	          })
     	          .orElseGet(() -> {

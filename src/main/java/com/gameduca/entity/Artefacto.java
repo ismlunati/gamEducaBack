@@ -7,6 +7,8 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
@@ -21,7 +23,7 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
 @Table(name = "artefacto")
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+//@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Artefacto extends BaseEntity{
 	
     @NotNull
@@ -36,9 +38,10 @@ public class Artefacto extends BaseEntity{
     @Column(name="COSTEPUNTOS")
     private Integer costePuntos;
     
+    @Enumerated(EnumType.STRING)
     @NotNull
     @Column(name="ESTADO")
-    private String estado;
+    private EstadoArtefacto estado;
     
     @NotNull
     @Column(name="TEMPORAL")
@@ -50,18 +53,22 @@ public class Artefacto extends BaseEntity{
     @Column(name="FECHAFIN")
     private Date fechaFin;
     
+    @NotNull
+    @Column(name="REPETIBLE")
+    private boolean repetible;
+    
     @JsonBackReference(value="asignatura-artefacto")
     @ManyToOne
     @JoinColumn(name = "ASIGNATURA_ID")
     private Asignatura asignatura;
-    
-//    @JsonManagedReference(value="logro-artefacto")
-    @ManyToMany(mappedBy = "artefactos")
-    private List<Logro> logros = new ArrayList<>();
 
     @JsonManagedReference(value="compra-artefacto")
     @OneToMany(mappedBy = "artefacto", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Compra> compras = new ArrayList<>();
+    
+    @JsonManagedReference(value="artefacto-logro")
+    @OneToMany(mappedBy = "artefacto", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ArtefactoLogro> artefactoLogros = new ArrayList<>();
     
 	public String getNombre() {
 		return nombre;
@@ -79,11 +86,11 @@ public class Artefacto extends BaseEntity{
 		this.costePuntos = costePuntos;
 	}
 
-	public String getEstado() {
+	public EstadoArtefacto getEstado() {
 		return estado;
 	}
 
-	public void setEstado(String estado) {
+	public void setEstado(EstadoArtefacto estado) {
 		this.estado = estado;
 	}
 
@@ -110,6 +117,15 @@ public class Artefacto extends BaseEntity{
 	public void setFechaFin(Date fechaFin) {
 		this.fechaFin = fechaFin;
 	}
+	
+
+	public boolean isRepetible() {
+		return repetible;
+	}
+
+	public void setRepetible(boolean repetible) {
+		this.repetible = repetible;
+	}
 
 	public Asignatura getAsignatura() {
 		return asignatura;
@@ -127,13 +143,13 @@ public class Artefacto extends BaseEntity{
 		this.descripcion = descripcion;
 	}
 
-	public List<Logro> getLogros() {
-		return logros;
-	}
-
-	public void setLogros(List<Logro> logros) {
-		this.logros = logros;
-	}
+//	public List<Logro> getLogros() {
+//		return logros;
+//	}
+//
+//	public void setLogros(List<Logro> logros) {
+//		this.logros = logros;
+//	}
 	
 	public List<Compra> getCompras() {
 		return compras;
@@ -143,7 +159,15 @@ public class Artefacto extends BaseEntity{
 		this.compras = compras;
 	}
 
-	public Artefacto(@NotNull String nombre, @NotNull String descripcion, @NotNull Integer costePuntos, @NotNull String estado,
+	public List<ArtefactoLogro> getArtefactoLogros() {
+		return artefactoLogros;
+	}
+
+	public void setArtefactoLogros(List<ArtefactoLogro> artefactoLogros) {
+		this.artefactoLogros = artefactoLogros;
+	}
+
+	public Artefacto(@NotNull String nombre, @NotNull String descripcion, @NotNull Integer costePuntos, @NotNull EstadoArtefacto estado,
 			@NotNull boolean temporal, Date fechaInicio, Date fechaFin, Asignatura asignatura) {
 		super();
 		this.nombre = nombre;
@@ -157,8 +181,4 @@ public class Artefacto extends BaseEntity{
 	}
     
     public Artefacto() {}
-    
-    
-	
-
 }

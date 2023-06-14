@@ -43,6 +43,10 @@ public class Reto extends BaseEntity {
     
     @Column(name="FECHAFIN")
     private Date fechaFin;
+    
+    @NotNull
+    @Column(name="AUTOMATICO")
+    private boolean automatico;
 
     @ManyToOne
     @JoinColumn(name = "LOGRO_ID")
@@ -141,6 +145,14 @@ public class Reto extends BaseEntity {
 
 	public void setFechaFin(Date fechaFin) {
 		this.fechaFin = fechaFin;
+	}
+
+	public boolean isAutomatico() {
+		return automatico;
+	}
+
+	public void setAutomatico(boolean automatico) {
+		this.automatico = automatico;
 	}
 
 	public Reto(@NotEmpty(message = "El nombre no puede estar vacío") String nombre,

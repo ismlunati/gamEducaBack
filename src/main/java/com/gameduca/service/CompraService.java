@@ -15,6 +15,7 @@ import com.gameduca.entity.Alumno;
 import com.gameduca.entity.AlumnoAsignatura;
 import com.gameduca.entity.Artefacto;
 import com.gameduca.entity.Compra;
+import com.gameduca.entity.EstadoCompra;
 import com.gameduca.entity.Reto;
 import com.gameduca.entity.RolNombre;
 import com.gameduca.repository.CompraRepository;
@@ -96,8 +97,7 @@ public class CompraService {
 		if(artefacto.getCostePuntos()<= alumnoAsignatura.getPuntos()) {
 			compra.setAlumno(alumno);
 			compra.setArtefacto(artefacto);
-			compra.setCantidad(1);
-			compra.setEstado("Pendiente Aceptacion");
+			compra.setEstado(EstadoCompra.COMPRADO); 
 		}
     	return compra;
     }

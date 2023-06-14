@@ -5,6 +5,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 @Table(name = "artefacto_logro")
 public class ArtefactoLogro extends BaseEntity{
@@ -13,10 +15,12 @@ public class ArtefactoLogro extends BaseEntity{
     
     private boolean obtener;
     
+    @JsonBackReference(value="artefacto-artefactologro")
     @ManyToOne
     @JoinColumn(name = "artefacto_id")
     private Artefacto artefacto;
 
+    @JsonBackReference(value="logro-artefactologro")
     @ManyToOne
     @JoinColumn(name = "logro_id")
     private Logro logro;

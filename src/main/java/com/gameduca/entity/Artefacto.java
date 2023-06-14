@@ -66,7 +66,7 @@ public class Artefacto extends BaseEntity{
     @OneToMany(mappedBy = "artefacto", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Compra> compras = new ArrayList<>();
     
-    @JsonManagedReference(value="artefacto-logro")
+    @JsonManagedReference(value="artefacto-artefactologro")
     @OneToMany(mappedBy = "artefacto", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ArtefactoLogro> artefactoLogros = new ArrayList<>();
     

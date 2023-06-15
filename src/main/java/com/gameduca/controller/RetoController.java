@@ -39,8 +39,8 @@ public class RetoController {
     }
 	
     @PostMapping("/asignaturas/{idAsignatura}/retos")
-    public void añadirReto(@RequestBody Reto reto, @PathVariable Long idAsignatura) throws Exception {
-    	retoService.añadirReto(reto, idAsignatura);
+    public Reto añadirReto(@RequestBody Reto reto, @PathVariable Long idAsignatura) throws Exception {
+    	return retoService.añadirReto(reto, idAsignatura);
     }
     
     @PostMapping("/asignaturas/{idAsignatura}/asignarseReto")

@@ -12,6 +12,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
@@ -31,7 +32,8 @@ public class Reto extends BaseEntity {
     String descripcion;
 
     @Column(name = "PUNTOS_OTORGADOS")
-    @NotEmpty(message = "Un reto tiene que otogar puntos")
+    @NotNull(message = "Un reto tiene que otorgar puntos")
+    @Min(value = 0, message = "Los puntos otorgados deben ser al menos 0")
     Integer puntosOtorgados;
     
     @NotNull
@@ -52,11 +54,6 @@ public class Reto extends BaseEntity {
     @JoinColumn(name = "LOGRO_ID")
     @JsonBackReference(value="reto-logro")
     private Logro logro;
-
-    @ManyToOne
-    @JoinColumn(name = "TEMA_ID")
-    @JsonBackReference(value="reto-tema")
-    private Tema tema;
     
     @ManyToOne
     @JoinColumn(name = "ASIGNATURA_ID")
@@ -98,15 +95,7 @@ public class Reto extends BaseEntity {
 	public void setLogro(Logro logro) {
 		this.logro = logro;
 	}
-
-	public Tema getTema() {
-		return tema;
-	}
-
-	public void setTema(Tema tema) {
-		this.tema = tema;
-	}
-
+	
 	public Asignatura getAsignatura() {
 		return asignatura;
 	}
@@ -157,13 +146,12 @@ public class Reto extends BaseEntity {
 
 	public Reto(@NotEmpty(message = "El nombre no puede estar vacío") String nombre,
 			@NotEmpty(message = "La descripción no puede estar vacía") String descripcion,
-			@NotEmpty(message = "Un reto tiene que otogar puntos") Integer puntosOtorgados, Logro logro, Tema tema) {
+			@NotEmpty(message = "Un reto tiene que otogar puntos") Integer puntosOtorgados, Logro logro) {
 		super();
 		this.nombre = nombre;
 		this.descripcion = descripcion;
 		this.puntosOtorgados = puntosOtorgados;
 		this.logro = logro;
-		this.tema = tema;
 	}
 
 	public Reto() {}

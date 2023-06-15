@@ -29,11 +29,6 @@ public class Tema extends BaseEntity{
     @ManyToOne
     @JoinColumn(name = "ASIGNATURA_ID")
     private Asignatura asignatura;
-	
-    @OneToMany(mappedBy = "logro")
-    @JsonManagedReference(value="reto-tema")
-    private List<Reto> reto;
-    
     
 	public String getNombre() {
 		return nombre;
@@ -57,14 +52,6 @@ public class Tema extends BaseEntity{
 
 	public void setAsignatura(Asignatura asignatura) {
 		this.asignatura = asignatura;
-	}
-	
-	public List<Reto> getReto() {
-		return reto;
-	}
-
-	public void setReto(List<Reto> reto) {
-		this.reto = reto;
 	}
 
 	public Tema(@NotEmpty(message = "El nombre no puede estar vacío") String nombre,

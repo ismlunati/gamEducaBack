@@ -69,10 +69,11 @@ public class RetoService {
     	}
     }
     
-    public void añadirReto(Reto reto, Long asignaturaId) throws Exception {
+    public Reto añadirReto(Reto reto, Long asignaturaId) throws Exception {
     	Asignatura asignatura = asignaturaService.buscarAsignaturaPorId(asignaturaId);
     	reto.setAsignatura(asignatura);
     	retoRepository.save(reto);
+    	return reto;
     }
     
     public boolean asignarseReto(Reto reto) throws Exception {
@@ -135,7 +136,6 @@ public class RetoService {
     	        	  reto.setDescripcion(newReto.getDescripcion());
     	        	  reto.setPuntosOtorgados(newReto.getPuntosOtorgados());
     	        	  reto.setLogro(newReto.getLogro());
-    	        	  reto.setTema(newReto.getTema());
     	        	  reto.setTemporal(newReto.isTemporal());
     	        	  if(newReto.isTemporal()) {
     	        		  reto.setFechaInicio(newReto.getFechaInicio());

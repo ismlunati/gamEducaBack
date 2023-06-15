@@ -38,8 +38,8 @@ public class LogroController {
     }
     
     @PostMapping("/asignaturas/{idAsignatura}/logros")
-    public void añadirLogro(@RequestBody Logro logro) throws Exception {
-    	logroService.añadirLogro(logro);
+    public Logro añadirLogro(@RequestBody Logro logro) throws Exception {
+    	return logroService.añadirLogro(logro);
     } 
     
     @PutMapping("/asignaturas/{idAsignatura}/logros/{idLogro}")

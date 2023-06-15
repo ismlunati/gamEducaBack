@@ -42,8 +42,8 @@ public class ArtefactoController {
     }
 	
     @PostMapping("/asignaturas/{idAsignatura}/artefactos")
-    public void añadirArtefacto(@RequestBody Artefacto artefacto, @PathVariable Long idAsignatura) throws Exception {
-    	artefactoService.añadirArtefacto(artefacto, idAsignatura);
+    public Artefacto añadirArtefacto(@RequestBody Artefacto artefacto, @PathVariable Long idAsignatura) throws Exception {
+    	return artefactoService.añadirArtefacto(artefacto, idAsignatura);
     } 
     
     @PutMapping("/asignaturas/{idAsignatura}/artefactos/{idArtefacto}")

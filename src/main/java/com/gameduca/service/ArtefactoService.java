@@ -44,10 +44,11 @@ public class ArtefactoService {
     	}
     }
     
-    public void añadirArtefacto(Artefacto artefacto, Long asignaturaId) throws Exception {
+    public Artefacto añadirArtefacto(Artefacto artefacto, Long asignaturaId) throws Exception {
     	Asignatura asignatura = asignaturaService.buscarAsignaturaPorId(asignaturaId);
     	artefacto.setAsignatura(asignatura);
     	artefactoRepository.save(artefacto);
+    	return artefacto;
     }
     
     public Artefacto editarArtefacto(Long idAsignatura, Long idArtefacto, Artefacto newArtefacto) throws Exception {

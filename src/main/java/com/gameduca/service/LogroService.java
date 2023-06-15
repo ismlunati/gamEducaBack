@@ -67,8 +67,9 @@ public class LogroService {
     	}
     }
     
-    public void añadirLogro(Logro logro) throws Exception {
+    public Logro añadirLogro(Logro logro) throws Exception {
     	logroRepository.save(logro);
+    	return logro;
     }
     
     public Logro editarLogro(Long idLogro, Logro newLogro) throws Exception {

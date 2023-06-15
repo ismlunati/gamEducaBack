@@ -38,17 +38,9 @@ public class Logro extends BaseEntity {
     @JsonManagedReference(value="reto-logro")
     private List<Reto> retos;
     
-    @JsonManagedReference(value="logro-artefacto")
+    @JsonManagedReference(value="logro-artefactologro")
     @OneToMany(mappedBy = "logro", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ArtefactoLogro> artefactoLogros = new ArrayList<>();
-    
-//    @ManyToMany
-//    @JoinTable(name = "logros_artefactos",
-//        joinColumns = @JoinColumn(name = "logro_id"),
-//        inverseJoinColumns = @JoinColumn(name = "artefacto_id")
-//    )
-//    private List<Artefacto> artefactos = new ArrayList<>();
-    
     
 
 	public String getNombre() {

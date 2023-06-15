@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import com.gameduca.entity.Artefacto;
 import com.gameduca.entity.Asignatura;
+import com.gameduca.entity.EstadoArtefacto;
 import com.gameduca.entity.Tema;
 import com.gameduca.repository.ArtefactoRepository;
 import com.gameduca.repository.AsignaturaRepository;
@@ -47,6 +48,7 @@ public class ArtefactoService {
     public Artefacto añadirArtefacto(Artefacto artefacto, Long asignaturaId) throws Exception {
     	Asignatura asignatura = asignaturaService.buscarAsignaturaPorId(asignaturaId);
     	artefacto.setAsignatura(asignatura);
+    	artefacto.setEstado(EstadoArtefacto.PUBLICADO);
     	artefactoRepository.save(artefacto);
     	return artefacto;
     }

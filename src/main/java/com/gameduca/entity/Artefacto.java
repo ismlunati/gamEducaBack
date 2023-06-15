@@ -14,6 +14,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -34,8 +35,9 @@ public class Artefacto extends BaseEntity{
     @Column(name="DESCRIPCION")
     private String descripcion;
     
-    @NotNull
     @Column(name="COSTEPUNTOS")
+    @NotNull(message = "Un reto tiene que otorgar puntos")
+    @Min(value = 0, message = "Los puntos otorgados deben ser al menos 0")
     private Integer costePuntos;
     
     @Enumerated(EnumType.STRING)

@@ -13,6 +13,8 @@ import com.gameduca.entity.Artefacto;
 import com.gameduca.entity.Asignatura;
 import com.gameduca.entity.EstadoArtefacto;
 import com.gameduca.entity.Tema;
+import com.gameduca.entity.dto.ArtefactoDTO;
+import com.gameduca.entity.dto.mapper.ArtefactoDTOMapper;
 import com.gameduca.repository.ArtefactoRepository;
 import com.gameduca.repository.AsignaturaRepository;
 
@@ -25,6 +27,9 @@ public class ArtefactoService {
     
     @Autowired
     private AsignaturaService asignaturaService;
+    
+    @Autowired
+    private ArtefactoDTOMapper artefactoDTOMapper;
     
     public List<Artefacto> obtenerArtefactosDeUnaAsignatura(Long asignaturaId) throws Exception {
     	Asignatura asignatura = asignaturaService.buscarAsignaturaPorId(asignaturaId);
@@ -42,6 +47,15 @@ public class ArtefactoService {
     		return artefacto.get();
     	} else {
     		return new Artefacto();
+    	}
+    }
+    
+    public ArtefactoDTO obtenerArtefactoDTO(Long idArtefacto) throws Exception {
+    	Optional<Artefacto> artefacto = artefactoRepository.findById(idArtefacto);
+    	if(artefacto.isPresent()) {
+    		return artefactoDTOMapper.toDTO(artefacto.get());
+    	} else {
+    		return artefactoDTOMapper.toDTO(new Artefacto());
     	}
     }
     

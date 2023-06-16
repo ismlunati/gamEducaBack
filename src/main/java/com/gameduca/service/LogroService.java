@@ -16,6 +16,9 @@ import com.gameduca.entity.Asignatura;
 import com.gameduca.entity.Logro;
 import com.gameduca.entity.Reto;
 import com.gameduca.entity.RolNombre;
+import com.gameduca.entity.dto.LogroDTO;
+import com.gameduca.entity.dto.mapper.ArtefactoDTOMapper;
+import com.gameduca.entity.dto.mapper.LogroDTOMapper;
 import com.gameduca.repository.AlumnoRetoRepository;
 import com.gameduca.repository.LogroRepository;
 
@@ -28,6 +31,9 @@ public class LogroService {
     
     @Autowired
     RetoService retoService;
+    
+    @Autowired
+    private LogroDTOMapper logroDTOMapper;
     
     public List<Logro> obtenerLogrosDeUnaAsignatura(Long idAsignatura) throws Exception {
     	List<Logro> listaLogros = new ArrayList<>();
@@ -64,6 +70,15 @@ public class LogroService {
     		return logro.get();
     	} else {
     		return new Logro();
+    	}
+    }
+    
+    public LogroDTO obtenerLogroDTO(Long logroId) throws Exception {
+    	Optional<Logro> logro = logroRepository.findById(logroId);
+    	if(logro.isPresent()) {
+    		return logroDTOMapper.toDTO(logro.get()); 
+    	} else {
+    		return logroDTOMapper.toDTO(new Logro());
     	}
     }
     

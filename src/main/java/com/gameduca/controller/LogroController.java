@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.gameduca.entity.Logro;
+import com.gameduca.entity.dto.ArtefactoDTO;
+import com.gameduca.entity.dto.LogroDTO;
 import com.gameduca.service.LogroService;
 
 
@@ -35,6 +37,12 @@ public class LogroController {
     @GetMapping("/asignaturas/{idAsignatura}/logros/{idLogro}")
     public Logro obtenerLogro(@PathVariable Long idLogro) throws Exception{
     	return logroService.obtenerLogro(idLogro);
+    }
+    
+    @GetMapping("/asignaturas/{idAsignatura}/logrosDTO/{idLogro}")
+    public LogroDTO obtenerLogroDTO(@PathVariable Long idLogro) throws Exception{
+    	LogroDTO logro = logroService.obtenerLogroDTO(idLogro);
+    	return logro;
     }
     
     @PostMapping("/asignaturas/{idAsignatura}/logros")

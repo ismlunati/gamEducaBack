@@ -1,5 +1,6 @@
 package com.gameduca.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,6 +35,16 @@ public class ArtefactoService {
     public List<Artefacto> obtenerArtefactosDeUnaAsignatura(Long asignaturaId) throws Exception {
     	Asignatura asignatura = asignaturaService.buscarAsignaturaPorId(asignaturaId);
     	return asignatura.getArtefactos();
+    }
+    
+    public List<ArtefactoDTO> obtenerArtefactosDTODeUnaAsignatura(Long asignaturaId) throws Exception {
+    	List<ArtefactoDTO> listaArtefactoDTO = new ArrayList<>();
+    	Asignatura asignatura = asignaturaService.buscarAsignaturaPorId(asignaturaId);
+    	for(Artefacto artefacto: asignatura.getArtefactos()) {
+    		ArtefactoDTO artefactoDTO = artefactoDTOMapper.toDTO(artefacto);
+    		listaArtefactoDTO.add(artefactoDTO);
+    	}
+    	return listaArtefactoDTO;
     }
 
 //    public List<Artefacto> obtenerArtefactosDeUnAlumno(Long asignaturaId) throws Exception {

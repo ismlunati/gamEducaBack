@@ -33,6 +33,11 @@ public class LogroController {
     public List<Logro> obtenerLogrosDeUnaAsignatura(@PathVariable Long idAsignatura) throws Exception{
     	return logroService.obtenerLogrosDeUnaAsignatura(idAsignatura);
     }
+    
+    @GetMapping("/asignaturas/{idAsignatura}/logrosDTO")
+    public List<LogroDTO> obtenerLogrosDTODeUnaAsignatura(@PathVariable Long idAsignatura) throws Exception{
+    	return logroService.obtenerLogrosDTODeUnaAsignatura(idAsignatura);
+    }
 	
     @GetMapping("/asignaturas/{idAsignatura}/logros/{idLogro}")
     public Logro obtenerLogro(@PathVariable Long idLogro) throws Exception{

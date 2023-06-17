@@ -46,6 +46,19 @@ public class LogroService {
 		}
 		return listaLogros;
     }
+    
+    public List<LogroDTO> obtenerLogrosDTODeUnaAsignatura(Long idAsignatura) throws Exception {
+    	List<LogroDTO> listaLogros = new ArrayList<>();
+		List<Reto> listaRetosDeAsignatura = retoService.obtenerRetosDeUnaAsignatura(idAsignatura);
+		for(Reto reto: listaRetosDeAsignatura) {
+			Logro logro = reto.getLogro();
+			if(!listaLogros.contains(logro)) {
+				LogroDTO logroDTO = logroDTOMapper.toDTO(logro);
+				listaLogros.add(logroDTO);
+			}
+		}
+		return listaLogros;
+    }
 
     public List<Logro> obtenerLogrosDeUnAlumno(Long idAsignatura) throws Exception {
     	List<Logro> listaLogros = new ArrayList<>();

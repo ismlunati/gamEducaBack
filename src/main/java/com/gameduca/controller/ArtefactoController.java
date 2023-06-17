@@ -32,6 +32,11 @@ public class ArtefactoController {
     	return artefactoService.obtenerArtefactosDeUnaAsignatura(idAsignatura);
     }
     
+    @GetMapping("/asignaturas/{idAsignatura}/artefactosDTO")
+    public List<ArtefactoDTO> obtenerArtefactosDTODeUnaAsignatura(@PathVariable Long idAsignatura) throws Exception{
+    	return artefactoService.obtenerArtefactosDTODeUnaAsignatura(idAsignatura);
+    }
+    
     @GetMapping("/asignaturas/{idAsignatura}/artefactosAlumno")
     public List<Artefacto> obtenerArtefactosDeUnAlumno(@PathVariable Long idAsignatura) throws Exception{
     	return compraService.obtenerTodosArtefactosUsuario(idAsignatura);

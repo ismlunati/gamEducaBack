@@ -18,7 +18,7 @@ public class ArtefactoDTO {
     private boolean repetible;
 //    private AsignaturaDTO asignatura;
 //    private List<CompraDTO> compras;
-    private List<ArtefactoLogroDTO> artefactoLogros;
+    private ArtefactoLogroDTO artefactoLogros;
 	public Long getId() {
 		return id;
 	}
@@ -73,10 +73,10 @@ public class ArtefactoDTO {
 	public void setRepetible(boolean repetible) {
 		this.repetible = repetible;
 	}
-	public List<ArtefactoLogroDTO> getArtefactoLogros() {
+	public ArtefactoLogroDTO getArtefactoLogros() {
 		return artefactoLogros;
 	}
-	public void setArtefactoLogros(List<ArtefactoLogroDTO> artefactoLogros) {
+	public void setArtefactoLogros(ArtefactoLogroDTO artefactoLogros) {
 		this.artefactoLogros = artefactoLogros;
 	}    
     

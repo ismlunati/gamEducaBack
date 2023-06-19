@@ -13,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -69,8 +70,8 @@ public class Artefacto extends BaseEntity{
     private List<Compra> compras = new ArrayList<>();
     
     @JsonManagedReference(value="artefacto-artefactologro")
-    @OneToMany(mappedBy = "artefacto", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ArtefactoLogro> artefactoLogros = new ArrayList<>();
+    @OneToOne(mappedBy = "artefacto", cascade = CascadeType.ALL, orphanRemoval = true)
+    private ArtefactoLogro artefactoLogros;
     
 	public String getNombre() {
 		return nombre;
@@ -144,14 +145,6 @@ public class Artefacto extends BaseEntity{
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
 	}
-
-//	public List<Logro> getLogros() {
-//		return logros;
-//	}
-//
-//	public void setLogros(List<Logro> logros) {
-//		this.logros = logros;
-//	}
 	
 	public List<Compra> getCompras() {
 		return compras;
@@ -161,11 +154,11 @@ public class Artefacto extends BaseEntity{
 		this.compras = compras;
 	}
 
-	public List<ArtefactoLogro> getArtefactoLogros() {
+	public ArtefactoLogro getArtefactoLogros() {
 		return artefactoLogros;
 	}
 
-	public void setArtefactoLogros(List<ArtefactoLogro> artefactoLogros) {
+	public void setArtefactoLogros(ArtefactoLogro artefactoLogros) {
 		this.artefactoLogros = artefactoLogros;
 	}
 

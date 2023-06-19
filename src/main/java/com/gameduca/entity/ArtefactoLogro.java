@@ -3,6 +3,7 @@ package com.gameduca.entity;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -16,7 +17,7 @@ public class ArtefactoLogro extends BaseEntity{
     private boolean obtener;
     
     @JsonBackReference(value="artefacto-artefactologro")
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "artefacto_id")
     private Artefacto artefacto;
 

@@ -43,11 +43,10 @@ public class ArtefactoDTOMapper {
 //            .collect(Collectors.toList());
 //        dto.setCompras(comprasDTO);
 
-//        List<ArtefactoLogroDTO> artefactoLogrosDTO = artefacto.getArtefactoLogros().stream()
-//            .map(artefactoLogro -> artefactoLogroDTOMapper.toDTOArtefacto(artefactoLogro))
-//            .collect(Collectors.toList());
-        
-        dto.setArtefactoLogros(artefactoLogroDTOMapper.toDTOArtefacto(artefacto.getArtefactoLogros()));
+        List<ArtefactoLogroDTO> artefactoLogrosDTO = artefacto.getArtefactoLogros().stream()
+            .map(artefactoLogro -> artefactoLogroDTOMapper.toDTOArtefacto(artefactoLogro))
+            .collect(Collectors.toList());
+        dto.setArtefactoLogros(artefactoLogrosDTO);
 
         return dto;
     }
@@ -101,17 +100,19 @@ public class ArtefactoDTOMapper {
 //        artefacto.setAsignatura(asignatura);
 
         // Ahora mapeamos la lista de ArtefactoLogroDTO a ArtefactoLogro
-//        List<ArtefactoLogro> artefactoLogros = dto.getArtefactoLogros().stream()
-//                .map(artefactoLogroDTO -> artefactoLogroDTOMapper.toEntity(artefactoLogroDTO))
-//                .collect(Collectors.toList());
+        List<ArtefactoLogro> artefactoLogros = dto.getArtefactoLogros().stream()
+                .map(artefactoLogroDTO -> artefactoLogroDTOMapper.toEntity(artefactoLogroDTO))
+                .collect(Collectors.toList());
 
         // Antes de asignar la lista de ArtefactoLogro al artefacto, necesitamos garantizar que cada ArtefactoLogro en la lista tiene una referencia correcta a este artefacto
-//        artefactoLogros.forEach(artefactoLogro -> artefactoLogro.setArtefacto(artefacto));
+        artefactoLogros.forEach(artefactoLogro -> artefactoLogro.setArtefacto(artefacto));
 
-//        artefacto.setArtefactoLogros(artefactoLogros);
+        artefacto.setArtefactoLogros(artefactoLogros);
 
         return artefacto;
     }
 
 }
+
+
 

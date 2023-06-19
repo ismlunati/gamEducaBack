@@ -31,7 +31,8 @@ public class LogroDTOMapper {
         dto.setDescripcion(logro.getDescripcion());
         dto.setImagen(logro.getImagen());
 //        dto.setRetos(logro.getRetos().stream().map(reto -> retoDTOMapper.toDTO(reto)).collect(Collectors.toList()));
-        dto.setArtefactoLogros(logro.getArtefactoLogros().stream().map(artefactoLogro -> artefactoLogroDTOMapper.toDTOLogro(artefactoLogro)).collect(Collectors.toList()));
+//        dto.setArtefactoLogros(logro.getArtefactoLogros().stream().map(artefactoLogro -> artefactoLogroDTOMapper.toDTOLogro(artefactoLogro)).collect(Collectors.toList()));
+        dto.setArtefactoLogros(artefactoLogroDTOMapper.toDTOLogro(logro.getArtefactoLogros()));
         return dto;
     }
     public LogroDTO artefactoToDTO(Logro logro) {
@@ -53,11 +54,11 @@ public class LogroDTOMapper {
         logro.setImagen(dto.getImagen());
 //        logro.setRetos(dto.getRetos().stream().map(retoDTO -> retoDTOMapper.toEntity(retoDTO)).collect(Collectors.toList()));
         
-        List<ArtefactoLogro> artefactoLogros = dto.getArtefactoLogros().stream()
-            .map(artefactoLogroDTO -> artefactoLogroDTOMapper.toEntity(artefactoLogroDTO))
-            .collect(Collectors.toList());
-        artefactoLogros.forEach(artefactoLogro -> artefactoLogro.setLogro(logro));
-        logro.setArtefactoLogros(artefactoLogros);
+//        List<ArtefactoLogro> artefactoLogros = dto.getArtefactoLogros().stream()
+//            .map(artefactoLogroDTO -> artefactoLogroDTOMapper.toEntity(artefactoLogroDTO))
+//            .collect(Collectors.toList());
+//        artefactoLogros.forEach(artefactoLogro -> artefactoLogro.setLogro(logro));
+//        logro.setArtefactoLogros(artefactoLogros);
         
         return logro;
     }

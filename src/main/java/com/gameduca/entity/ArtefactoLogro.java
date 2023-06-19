@@ -17,12 +17,12 @@ public class ArtefactoLogro extends BaseEntity{
     private boolean obtener;
     
     @JsonBackReference(value="artefacto-artefactologro")
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "artefacto_id")
     private Artefacto artefacto;
 
     @JsonBackReference(value="logro-artefactologro")
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "logro_id")
     private Logro logro;
 

@@ -8,7 +8,7 @@ public class LogroDTO {
     private String descripcion;
     private String imagen;
 //    private List<RetoDTO> retos;
-    private List<ArtefactoLogroDTO> artefactoLogros;
+    private ArtefactoLogroDTO artefactoLogros;
 	public Long getId() {
 		return id;
 	}
@@ -33,10 +33,10 @@ public class LogroDTO {
 	public void setImagen(String imagen) {
 		this.imagen = imagen;
 	}
-	public List<ArtefactoLogroDTO> getArtefactoLogros() {
+	public ArtefactoLogroDTO getArtefactoLogros() {
 		return artefactoLogros;
 	}
-	public void setArtefactoLogros(List<ArtefactoLogroDTO> artefactoLogros) {
+	public void setArtefactoLogros(ArtefactoLogroDTO artefactoLogros) {
 		this.artefactoLogros = artefactoLogros;
 	}
 

@@ -10,6 +10,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 
@@ -39,8 +40,9 @@ public class Logro extends BaseEntity {
     private List<Reto> retos;
     
     @JsonManagedReference(value="logro-artefactologro")
-    @OneToMany(mappedBy = "logro", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ArtefactoLogro> artefactoLogros = new ArrayList<>();
+//    @OneToMany(mappedBy = "logro", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne(mappedBy = "logro", cascade = CascadeType.ALL, orphanRemoval = true)
+    private ArtefactoLogro artefactoLogros;
     
 
 	public String getNombre() {
@@ -75,11 +77,11 @@ public class Logro extends BaseEntity {
 		this.retos = retos;
 	}
 	
-	public List<ArtefactoLogro> getArtefactoLogros() {
+	public ArtefactoLogro getArtefactoLogros() {
 		return artefactoLogros;
 	}
 
-	public void setArtefactoLogros(List<ArtefactoLogro> artefactoLogros) {
+	public void setArtefactoLogros(ArtefactoLogro artefactoLogros) {
 		this.artefactoLogros = artefactoLogros;
 	}
 

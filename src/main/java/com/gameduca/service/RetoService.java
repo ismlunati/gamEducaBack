@@ -21,6 +21,9 @@ import com.gameduca.entity.EstadoAlumnoReto;
 import com.gameduca.entity.Logro;
 import com.gameduca.entity.Reto;
 import com.gameduca.entity.RolNombre;
+import com.gameduca.entity.dto.RetoDTO;
+import com.gameduca.entity.dto.mapper.LogroDTOMapper;
+import com.gameduca.entity.dto.mapper.RetoDTOMapper;
 import com.gameduca.repository.AlumnoRetoRepository;
 import com.gameduca.repository.LogroRepository;
 import com.gameduca.repository.RetoRepository;
@@ -42,10 +45,22 @@ public class RetoService {
     @Autowired
     AlumnoRetoRepository alumnoRetoRepository;
     
+    @Autowired
+    private RetoDTOMapper retoDTOMapper;
+    
 
     public List<Reto> obtenerRetosDeUnaAsignatura(Long asignaturaId) throws Exception {
     	Asignatura asignatura = asignaturaService.buscarAsignaturaPorId(asignaturaId);
     	return asignatura.getRetos();
+    }
+    
+    public List<RetoDTO> obtenerRetosDTODeUnaAsignatura(Long asignaturaId) throws Exception {
+    	List<RetoDTO> listaRetos = new ArrayList<>();
+    	Asignatura asignatura = asignaturaService.buscarAsignaturaPorId(asignaturaId);
+    	for(Reto reto : asignatura.getRetos()) {
+    		listaRetos.add(retoDTOMapper.toDTO(reto));
+    	}
+    	return listaRetos;
     }
     
     public List<Reto> obtenerRetosDeUnAlumno(Long asignaturaId) throws Exception{
@@ -66,6 +81,15 @@ public class RetoService {
     		return reto.get();
     	} else {
     		return new Reto();
+    	}
+    }
+    
+    public RetoDTO obtenerRetoDTO(Long idReto) {
+    	Optional<Reto> reto = retoRepository.findById(idReto);
+    	if(reto.isPresent()) {
+    		return retoDTOMapper.toDTO(reto.get());
+    	} else {
+    		return retoDTOMapper.toDTO(new Reto());
     	}
     }
     

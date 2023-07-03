@@ -12,6 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import com.gameduca.entity.Alumno;
+import com.gameduca.entity.Artefacto;
+import com.gameduca.entity.ArtefactoLogro;
 import com.gameduca.entity.Asignatura;
 import com.gameduca.entity.Logro;
 import com.gameduca.entity.Reto;
@@ -33,6 +35,9 @@ public class LogroService {
     RetoService retoService;
     
     @Autowired
+    ArtefactoService artefactoService;
+    
+    @Autowired
     private LogroDTOMapper logroDTOMapper;
     
     public List<Logro> obtenerLogrosDeUnaAsignatura(Long idAsignatura) throws Exception {
@@ -48,16 +53,13 @@ public class LogroService {
     }
     
     public List<LogroDTO> obtenerLogrosDTODeUnaAsignatura(Long idAsignatura) throws Exception {
-    	List<LogroDTO> listaLogros = new ArrayList<>();
-		List<Reto> listaRetosDeAsignatura = retoService.obtenerRetosDeUnaAsignatura(idAsignatura);
-		for(Reto reto: listaRetosDeAsignatura) {
-			Logro logro = reto.getLogro();
-			if(!listaLogros.contains(logro)) {
-				LogroDTO logroDTO = logroDTOMapper.toDTO(logro);
-				listaLogros.add(logroDTO);
-			}
+    	List<LogroDTO> listaLogrosDTO = new ArrayList<>();
+    	List<Logro> listaLogros = logroRepository.findLogrosByAsignatura(idAsignatura);
+		for(Logro logro: listaLogros) {
+			LogroDTO logroDTO = logroDTOMapper.toDTO(logro);
+			listaLogrosDTO.add(logroDTO);
 		}
-		return listaLogros;
+		return listaLogrosDTO;
     }
 
     public List<Logro> obtenerLogrosDeUnAlumno(Long idAsignatura) throws Exception {

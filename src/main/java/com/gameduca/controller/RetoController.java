@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.gameduca.entity.Reto;
 import com.gameduca.entity.Tema;
+import com.gameduca.entity.dto.RetoDTO;
 import com.gameduca.service.RetoService;
 import com.gameduca.service.TemaService;
 
@@ -28,6 +29,11 @@ public class RetoController {
     	return retoService.obtenerRetosDeUnaAsignatura(idAsignatura);
     }
     
+    @GetMapping("/asignaturas/{idAsignatura}/retosDTO")
+    public List<RetoDTO> obtenerRetosDTODeUnaAsignatura(@PathVariable Long idAsignatura) throws Exception{
+    	return retoService.obtenerRetosDTODeUnaAsignatura(idAsignatura);
+    }
+    
     @GetMapping("/asignaturas/{idAsignatura}/retosAlumno")
     public List<Reto> obtenerRetosDeUnAlumno(@PathVariable Long idAsignatura) throws Exception{
     	return retoService.obtenerRetosDeUnAlumno(idAsignatura);
@@ -36,6 +42,11 @@ public class RetoController {
     @GetMapping("/asignaturas/{idAsignatura}/retos/{idReto}")
     public Reto obtenerReto(@PathVariable Long idReto) throws Exception{
     	return retoService.obtenerReto(idReto);
+    }
+    
+    @GetMapping("/asignaturas/{idAsignatura}/retosDTO/{idReto}")
+    public RetoDTO obtenerRetoDTO(@PathVariable Long idReto) throws Exception{
+    	return retoService.obtenerRetoDTO(idReto);
     }
 	
     @PostMapping("/asignaturas/{idAsignatura}/retos")

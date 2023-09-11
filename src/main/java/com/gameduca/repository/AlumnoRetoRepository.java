@@ -17,5 +17,8 @@ public interface AlumnoRetoRepository extends CrudRepository<AlumnoReto, Long> {
 	
 	@Query("SELECT alumnoReto FROM AlumnoReto alumnoReto where alumnoReto.alumno.usuario.nombreUsuario =:nombreUsuario and alumnoReto.reto.id =:idReto")
 	public AlumnoReto findAlumnoRetoByRetoyAlumno(@Param("nombreUsuario") String nombreUsuario, @Param("idReto") Long idReto);
+	
+	@Query("SELECT alumnoReto FROM AlumnoReto alumnoReto where alumnoReto.reto.asignatura.id =:idAsignatura")
+	public List<AlumnoReto> findAlumnoRetoByAsignatura(@Param("idAsignatura") Long idAsignatura);
 
 }

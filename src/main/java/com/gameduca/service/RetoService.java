@@ -21,7 +21,9 @@ import com.gameduca.entity.EstadoAlumnoReto;
 import com.gameduca.entity.Logro;
 import com.gameduca.entity.Reto;
 import com.gameduca.entity.RolNombre;
+import com.gameduca.entity.dto.AlumnoRetoDTO;
 import com.gameduca.entity.dto.RetoDTO;
+import com.gameduca.entity.dto.mapper.AlumnoRetoDTOMapper;
 import com.gameduca.entity.dto.mapper.LogroDTOMapper;
 import com.gameduca.entity.dto.mapper.RetoDTOMapper;
 import com.gameduca.repository.AlumnoRetoRepository;
@@ -47,6 +49,11 @@ public class RetoService {
     
     @Autowired
     private RetoDTOMapper retoDTOMapper;
+    
+    @Autowired
+    private AlumnoRetoDTOMapper alumnoRetoDTOMapper;
+    
+    
     
 
     public List<Reto> obtenerRetosDeUnaAsignatura(Long asignaturaId) throws Exception {
@@ -100,12 +107,13 @@ public class RetoService {
     	return reto;
     }
     
-    public boolean asignarseReto(Reto reto) throws Exception {
+    public boolean asignarseReto(Long idReto) throws Exception {
     	boolean result = false;
     	UserDetails usuario = (UserDetails) SecurityContextHolder.getContext().getAuthentication()
 				.getPrincipal();
     	String rol = usuario.getAuthorities().iterator().next().getAuthority();
     	String nombreUsuario = usuario.getUsername();
+    	Reto reto = obtenerReto(idReto);
     	if(rol.equals(RolNombre.ROLE_USER.name())) {
     		GameducaUtils utils = new GameducaUtils();
     		if(reto.isTemporal() && utils.entraEnRangoHorario(reto.getFechaInicio(), reto.getFechaFin())) {
@@ -177,6 +185,14 @@ public class RetoService {
     public void borrarReto(Long id) {
     	retoRepository.deleteById(id);
     }
+
+	public List<AlumnoRetoDTO> obtenerRetosAlumno(Long idAsignatura) {
+		List<AlumnoRetoDTO> listaAlumnoRetoDTO = new ArrayList<>();
+		for(AlumnoReto alumnoReto : alumnoRetoRepository.findAlumnoRetoByAsignatura(idAsignatura)) {
+			listaAlumnoRetoDTO.add(alumnoRetoDTOMapper.toDTO(alumnoReto));
+		}
+		return listaAlumnoRetoDTO;
+	}
 
 
 }

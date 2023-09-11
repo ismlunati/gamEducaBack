@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.gameduca.entity.AlumnoReto;
 import com.gameduca.entity.Reto;
 import com.gameduca.entity.Tema;
+import com.gameduca.entity.dto.AlumnoRetoDTO;
 import com.gameduca.entity.dto.RetoDTO;
 import com.gameduca.service.RetoService;
 import com.gameduca.service.TemaService;
@@ -54,9 +56,9 @@ public class RetoController {
     	return retoService.añadirReto(reto, idAsignatura);
     }
     
-    @PostMapping("/asignaturas/{idAsignatura}/asignarseReto")
-    public boolean asignarseReto(@RequestBody Reto reto) throws Exception {
-    	return retoService.asignarseReto(reto);
+    @PostMapping("/asignaturas/{idAsignatura}/asignarseReto/{idReto}")
+    public boolean asignarseReto(@PathVariable Long idReto) throws Exception {
+    	return retoService.asignarseReto(idReto);
     } 
     
     @PostMapping("/asignaturas/{idAsignatura}/finalizarReto")
@@ -84,4 +86,8 @@ public class RetoController {
     	retoService.borrarReto(idReto);
     }
 
+    @GetMapping("/asignaturas/{idAsignatura}/retosDeAsignaturaPorAlumno")
+    public List<AlumnoRetoDTO> obtenerAlumnoReto(@PathVariable Long idAsignatura) throws Exception{
+    	return retoService.obtenerRetosAlumno(idAsignatura);
+    }
 }

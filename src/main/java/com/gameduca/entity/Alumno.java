@@ -35,7 +35,18 @@ public class Alumno extends BaseEntity{
     @JsonManagedReference(value="compra-alumno")
     @OneToMany(mappedBy = "alumno", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Compra> compras = new ArrayList<>();
+    
+    @OneToMany(mappedBy = "alumno", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Pregunta> preguntas = new ArrayList<>();
 
+
+	public List<Pregunta> getPreguntas() {
+		return preguntas;
+	}
+
+	public void setPreguntas(List<Pregunta> preguntas) {
+		this.preguntas = preguntas;
+	}
 
 	public List<AlumnoAsignatura> getAlumnoAsignaturas() {
 		return alumnoAsignaturas;

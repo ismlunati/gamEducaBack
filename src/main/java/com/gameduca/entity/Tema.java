@@ -2,6 +2,7 @@ package com.gameduca.entity;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -29,7 +30,20 @@ public class Tema extends BaseEntity{
     @ManyToOne
     @JoinColumn(name = "ASIGNATURA_ID")
     private Asignatura asignatura;
+	
+	@OneToMany(mappedBy = "tema", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<Pregunta> preguntas;
+	 
+	 
     
+	public List<Pregunta> getPreguntas() {
+		return preguntas;
+	}
+
+	public void setPreguntas(List<Pregunta> preguntas) {
+		this.preguntas = preguntas;
+	}
+
 	public String getNombre() {
 		return nombre;
 	}

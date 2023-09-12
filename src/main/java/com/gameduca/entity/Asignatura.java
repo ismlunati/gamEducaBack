@@ -1,5 +1,6 @@
 package com.gameduca.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -56,6 +57,11 @@ public class Asignatura extends BaseEntity {
     @OneToMany(mappedBy = "asignatura")
     @JsonManagedReference(value="reto-asignatura")
     private List<Reto> retos;
+    
+    @OneToMany(mappedBy = "asignatura", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Pregunta> preguntas;
+    
+    
 	
 	public Asignatura(){
 		
@@ -67,6 +73,16 @@ public class Asignatura extends BaseEntity {
 		this.descripcion = descripcion;
 		this.curso = curso;
 		this.codigo = codigo;
+	}
+	
+	
+
+	public List<Pregunta> getPreguntas() {
+		return preguntas;
+	}
+
+	public void setPreguntas(List<Pregunta> preguntas) {
+		this.preguntas = preguntas;
 	}
 
 	public String getNombre() {

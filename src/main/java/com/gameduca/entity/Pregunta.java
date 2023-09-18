@@ -12,6 +12,10 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 @Table(name = "pregunta")
 public class Pregunta extends BaseEntity {
@@ -20,21 +24,29 @@ public class Pregunta extends BaseEntity {
     @NotEmpty(message="El enunciado no puede estar vacío") 
     private String enunciado;
     
+//    @JsonBackReference(value="pregunta-alumno")
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "ALUMNO_ID")
     private Alumno alumno;
     
+//    @JsonBackReference(value="pregunta-asignatura")
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "ASIGNATURA_ID")
     private Asignatura asignatura;
     
+//    @JsonBackReference(value="pregunta-tema")
+	@JsonIgnore
     @ManyToOne
     @JoinColumn(name = "TEMA_ID")
     private Tema tema;
     
+//    @JsonBackReference(value="pregunta-respuesta")
     @OneToMany(mappedBy = "pregunta", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Respuesta> respuestas = new ArrayList<>();
     
+    @JsonIgnore
     @OneToMany(mappedBy = "pregunta")
     private List<TestPreguntas> testPreguntas = new ArrayList<>();
     

@@ -58,10 +58,12 @@ public class Asignatura extends BaseEntity {
     @JsonManagedReference(value="reto-asignatura")
     private List<Reto> retos;
     
+//    @JsonManagedReference(value="pregunta-asignatura")
     @OneToMany(mappedBy = "asignatura", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Pregunta> preguntas;
     
-    
+    @OneToMany(mappedBy = "asignatura", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Test> tests;
 	
 	public Asignatura(){
 		
@@ -155,6 +157,14 @@ public class Asignatura extends BaseEntity {
 
 	public void setRetos(List<Reto> retos) {
 		this.retos = retos;
+	}
+
+	public List<Test> getTests() {
+		return tests;
+	}
+
+	public void setTests(List<Test> tests) {
+		this.tests = tests;
 	}
 	
 }

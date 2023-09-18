@@ -1,0 +1,16 @@
+package com.gameduca.repository;
+
+import java.util.List;
+
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
+
+import com.gameduca.entity.Respuesta;
+
+public interface RespuestaRepository extends CrudRepository<Respuesta, Long>{
+	
+	@Query("SELECT r.id FROM Respuesta r WHERE r.esCorrecta = true AND r.pregunta.id = :preguntaId")
+	public Long findIdRespuestaCorrectaByPreguntaId(@Param("preguntaId") Long preguntaId);
+
+}

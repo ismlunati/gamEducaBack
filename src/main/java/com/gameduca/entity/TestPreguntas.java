@@ -6,6 +6,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 @Table(name = "TEST_PREGUNTAS")
 public class TestPreguntas extends BaseEntity {
@@ -18,11 +20,17 @@ public class TestPreguntas extends BaseEntity {
     @JoinColumn(name = "PREGUNTA_ID")
     private Pregunta pregunta;
     
-    @Column(name="ID_RESPUESTA_ALUMNO")
-    private Long idRespuestaAlumno;
+    @Column(name="ID_RESPUESTA_SELECCIONADA")
+    private Long idRespuestaSeleccionada;
+    
+    @Column(name="ID_ALUMNO_QUE_RESPONDE")
+    private Long idAlumnoQueResponde;
     
     @Column(name="RESPONDIDA")
     private boolean respondida;
+    
+    @Column(name="NUMERO_INTENTO")
+    private Integer numeroIntento;
     
     public TestPreguntas() {}
 
@@ -42,14 +50,6 @@ public class TestPreguntas extends BaseEntity {
 		this.pregunta = pregunta;
 	}
 
-	public Long getIdRespuestaAlumno() {
-		return idRespuestaAlumno;
-	}
-
-	public void setIdRespuestaAlumno(Long idRespuestaAlumno) {
-		this.idRespuestaAlumno = idRespuestaAlumno;
-	}
-
 	public boolean isRespondida() {
 		return respondida;
 	}
@@ -57,7 +57,30 @@ public class TestPreguntas extends BaseEntity {
 	public void setRespondida(boolean respondida) {
 		this.respondida = respondida;
 	}
-    
-    
+
+	public Long getIdRespuestaSeleccionada() {
+		return idRespuestaSeleccionada;
+	}
+
+	public void setIdRespuestaSeleccionada(Long idRespuestaSeleccionada) {
+		this.idRespuestaSeleccionada = idRespuestaSeleccionada;
+	}
+
+	public Long getIdAlumnoQueResponde() {
+		return idAlumnoQueResponde;
+	}
+
+	public void setIdAlumnoQueResponde(Long idAlumnoQueResponde) {
+		this.idAlumnoQueResponde = idAlumnoQueResponde;
+	}
+
+	public Integer getNumeroIntento() {
+		return numeroIntento;
+	}
+
+	public void setNumeroIntento(Integer numeroIntento) {
+		this.numeroIntento = numeroIntento;
+	}
+	
 }
 

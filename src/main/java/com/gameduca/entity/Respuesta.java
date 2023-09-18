@@ -7,6 +7,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 @Table(name = "respuesta")
 public class Respuesta extends BaseEntity {
@@ -18,6 +22,7 @@ public class Respuesta extends BaseEntity {
     @Column(name="ES_CORRECTA")
     private Boolean esCorrecta;
     
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "PREGUNTA_ID")
     private Pregunta pregunta;

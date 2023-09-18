@@ -12,6 +12,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
@@ -31,6 +32,8 @@ public class Tema extends BaseEntity{
     @JoinColumn(name = "ASIGNATURA_ID")
     private Asignatura asignatura;
 	
+//    @JsonManagedReference(value="pregunta-tema")
+	@JsonIgnore
 	@OneToMany(mappedBy = "tema", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Pregunta> preguntas;
 	 

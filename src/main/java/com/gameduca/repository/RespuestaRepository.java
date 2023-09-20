@@ -10,7 +10,7 @@ import com.gameduca.entity.Respuesta;
 
 public interface RespuestaRepository extends CrudRepository<Respuesta, Long>{
 	
-	@Query("SELECT r.id FROM Respuesta r WHERE r.esCorrecta = true AND r.pregunta.id = :preguntaId")
-	public Long findIdRespuestaCorrectaByPreguntaId(@Param("preguntaId") Long preguntaId);
+	@Query("SELECT r FROM Respuesta r WHERE r.esCorrecta = true AND r.pregunta.id = :preguntaId")
+	public Respuesta findIdRespuestaCorrectaByPreguntaId(@Param("preguntaId") Long preguntaId);
 
 }

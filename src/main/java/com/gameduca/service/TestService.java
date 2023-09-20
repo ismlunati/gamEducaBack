@@ -2,7 +2,9 @@ package com.gameduca.service;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import java.util.stream.Collectors;
 
@@ -20,6 +22,7 @@ import com.gameduca.entity.Test;
 import com.gameduca.entity.TestPreguntas;
 import com.gameduca.entity.Usuario;
 import com.gameduca.entity.dto.PreguntaElegibleDTO;
+import com.gameduca.entity.dto.PreguntaRespuestaSeleccionadaCorrectaDTO;
 import com.gameduca.entity.dto.ResultadoTestDTO;
 import com.gameduca.repository.PreguntaRepository;
 import com.gameduca.repository.RespuestaRepository;
@@ -182,6 +185,8 @@ public class TestService {
     
     public ResultadoTestDTO resultado(Long idAsignatura, Long idTest) {
     	ResultadoTestDTO result = new ResultadoTestDTO();
+    	List<PreguntaRespuestaSeleccionadaCorrectaDTO> preguntasRespuestas = new ArrayList<>();
+
     	UserDetails usuario = (UserDetails) SecurityContextHolder.getContext().getAuthentication()
 				.getPrincipal();
     	Alumno alumno = alumnoService.obtenerAlumnoPorNombre(usuario.getUsername());
@@ -191,22 +196,24 @@ public class TestService {
     	Test test = testRepository.findById(idTest).get();
     	Integer preguntasAcertadas = 0;
     	for(TestPreguntas testPreguntas : listaTestPreguntasRespondidas) {
+    		PreguntaRespuestaSeleccionadaCorrectaDTO preguntaRespuestaSeleccionadaCorrecta = new PreguntaRespuestaSeleccionadaCorrectaDTO();
+    		List<Respuesta> listaRespuestas = new ArrayList<>();
     		Long idRespuestaSeleccionada = testPreguntas.getIdRespuestaSeleccionada();
-    		Long idRespuestaCorrecta = respuestaRepository.findIdRespuestaCorrectaByPreguntaId(testPreguntas.getPregunta().getId());
-    		if(idRespuestaSeleccionada.equals(idRespuestaCorrecta)) {
+    		Respuesta respuestaSeleccionada = respuestaRepository.findById(idRespuestaSeleccionada).get();
+    		Respuesta respuestaCorrecta = respuestaRepository.findIdRespuestaCorrectaByPreguntaId(testPreguntas.getPregunta().getId());
+    		if(idRespuestaSeleccionada.equals(respuestaCorrecta.getId())) {
     			preguntasAcertadas++;
     		}
-    	}
+    		listaRespuestas.add(respuestaSeleccionada);
+    		listaRespuestas.add(respuestaCorrecta);
+    		preguntaRespuestaSeleccionadaCorrecta.setPregunta(testPreguntas.getPregunta());
+    		preguntaRespuestaSeleccionadaCorrecta.setRespuestas(listaRespuestas);
+    		preguntasRespuestas.add(preguntaRespuestaSeleccionadaCorrecta);
+    	}   	
     	result.setNumeroPreguntasTotales(test.getNumeroPreguntas());
     	result.setNumeroPreguntasAcertadas(preguntasAcertadas);
-//    	result.setPuntuacion();
-//    	result.setPreguntasRespondidas();
-//    	result.setRespuestas();
-    	return result;
-    	
-    	
-    }
-    
-    
+    	result.setPreguntasRespuestas(preguntasRespuestas);
+    	return result;   	
+    }        
 }
 

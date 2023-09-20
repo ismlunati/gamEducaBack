@@ -116,7 +116,7 @@ public class RetoService {
     	Reto reto = obtenerReto(idReto);
     	if(rol.equals(RolNombre.ROLE_USER.name())) {
     		GameducaUtils utils = new GameducaUtils();
-    		if(reto.isTemporal() && utils.entraEnRangoHorario(reto.getFechaInicio(), reto.getFechaFin())) {
+    		if((reto.isTemporal() && utils.entraEnRangoHorario(reto.getFechaInicio(), reto.getFechaFin())) || !reto.isTemporal()){
     			AlumnoReto alumnoReto = new AlumnoReto();
         		Alumno alumno = alumnoService.obtenerAlumnoPorNombre(nombreUsuario);
         		alumnoReto.setAlumno(alumno);
@@ -169,6 +169,7 @@ public class RetoService {
     	        	  reto.setPuntosOtorgados(newReto.getPuntosOtorgados());
     	        	  reto.setLogro(newReto.getLogro());
     	        	  reto.setTemporal(newReto.isTemporal());
+    	        	  reto.setAutomatico(newReto.isAutomatico());
     	        	  if(newReto.isTemporal()) {
     	        		  reto.setFechaInicio(newReto.getFechaInicio());
     	        		  reto.setFechaFin(newReto.getFechaFin());

@@ -12,13 +12,16 @@ import com.gameduca.entity.Reto;
 
 public interface AlumnoRetoRepository extends CrudRepository<AlumnoReto, Long> {
 	
-	@Query("SELECT alumnoReto.reto FROM AlumnoReto alumnoReto where alumnoReto.alumno.usuario.nombreUsuario =:nombreUsuario and alumnoReto.estado = 'COMPLETADO' and alumnoReto.reto.asignatura.id =:idAsignatura")
+	@Query("SELECT alumnoReto.reto FROM AlumnoReto alumnoReto where alumnoReto.alumno.usuario.nombreUsuario =:nombreUsuario and alumnoReto.reto.asignatura.id =:idAsignatura")
 	public List<Reto> findRetosByAlumnoyAsignaturas(@Param("nombreUsuario") String nombreUsuario, @Param("idAsignatura") Long idAsignatura);
 	
 	@Query("SELECT alumnoReto FROM AlumnoReto alumnoReto where alumnoReto.alumno.usuario.nombreUsuario =:nombreUsuario and alumnoReto.reto.id =:idReto")
 	public AlumnoReto findAlumnoRetoByRetoyAlumno(@Param("nombreUsuario") String nombreUsuario, @Param("idReto") Long idReto);
 	
-	@Query("SELECT alumnoReto FROM AlumnoReto alumnoReto where alumnoReto.reto.asignatura.id =:idAsignatura")
+	@Query("SELECT alumnoReto FROM AlumnoReto alumnoReto where alumnoReto.reto.asignatura.id =:idAsignatura order by alumnoReto.alumno.id")
 	public List<AlumnoReto> findAlumnoRetoByAsignatura(@Param("idAsignatura") Long idAsignatura);
+	
+	@Query("SELECT alumnoReto FROM AlumnoReto alumnoReto where alumnoReto.alumno.usuario.nombreUsuario =:nombreUsuario and alumnoReto.reto.asignatura.id =:idAsignatura")
+	public List<AlumnoReto> findListAlumnoRetoByAlumnoyAsignatura(@Param("nombreUsuario") String nombreUsuario, @Param("idAsignatura") Long idAsignatura);
 
 }

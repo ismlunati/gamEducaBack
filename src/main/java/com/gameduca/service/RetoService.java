@@ -82,6 +82,21 @@ public class RetoService {
 		return listaRetos;
     }
     
+    public List<AlumnoRetoDTO> obtenerAlumnoRetosDeUnAlumno(Long asignaturaId) throws Exception{
+    	List<AlumnoReto> listaRetos = new ArrayList<>();
+    	List<AlumnoRetoDTO> alumnoRetoDTO = new ArrayList<>();
+
+    	UserDetails usuario = (UserDetails) SecurityContextHolder.getContext().getAuthentication()
+				.getPrincipal();
+    	String rol = usuario.getAuthorities().iterator().next().getAuthority();
+    	String nombreUsuario = usuario.getUsername();
+    	if(rol.equals(RolNombre.ROLE_USER.name())) {
+    		listaRetos = alumnoRetoRepository.findListAlumnoRetoByAlumnoyAsignatura(nombreUsuario, asignaturaId);
+    		alumnoRetoDTO = alumnoRetoDTOMapper.toDTO(listaRetos);
+    	}
+		return alumnoRetoDTO;
+    }
+    
     public Reto obtenerReto(Long idReto) {
     	Optional<Reto> reto = retoRepository.findById(idReto);
     	if(reto.isPresent()) {
@@ -188,11 +203,16 @@ public class RetoService {
     }
 
 	public List<AlumnoRetoDTO> obtenerRetosAlumno(Long idAsignatura) {
-		List<AlumnoRetoDTO> listaAlumnoRetoDTO = new ArrayList<>();
-		for(AlumnoReto alumnoReto : alumnoRetoRepository.findAlumnoRetoByAsignatura(idAsignatura)) {
-			listaAlumnoRetoDTO.add(alumnoRetoDTOMapper.toDTO(alumnoReto));
-		}
-		return listaAlumnoRetoDTO;
+//		List<AlumnoRetoDTO> listaAlumnoRetoDTO = new ArrayList<>();
+//		for(AlumnoReto alumnoReto : alumnoRetoRepository.findAlumnoRetoByAsignatura(idAsignatura)) {
+//			listaAlumnoRetoDTO.add(alumnoRetoDTOMapper.toDTO(alumnoReto));
+//		}
+//		return listaAlumnoRetoDTO;
+		
+		List<AlumnoRetoDTO> alumnoRetoDTO = new ArrayList<>();
+		
+		alumnoRetoDTO = alumnoRetoDTOMapper.toDTO(alumnoRetoRepository.findAlumnoRetoByAsignatura(idAsignatura));
+		return alumnoRetoDTO;
 	}
 
 

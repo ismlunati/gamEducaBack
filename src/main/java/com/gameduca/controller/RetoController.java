@@ -36,12 +36,6 @@ public class RetoController {
     	return retoService.obtenerRetosDTODeUnaAsignatura(idAsignatura);
     }
     
-    // Obtiene los retos y el estado de los retos del alumno que hace la peticion
-    @GetMapping("/asignaturas/{idAsignatura}/retosAlumno")
-    public List<AlumnoRetoDTO> obtenerRetosDeUnAlumno(@PathVariable Long idAsignatura) throws Exception{
-    	return retoService.obtenerAlumnoRetosDeUnAlumno(idAsignatura);
-    }
-    
     @GetMapping("/asignaturas/{idAsignatura}/retos/{idReto}")
     public Reto obtenerReto(@PathVariable Long idReto) throws Exception{
     	return retoService.obtenerReto(idReto);

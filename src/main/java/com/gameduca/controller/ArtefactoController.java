@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.gameduca.entity.Artefacto;
 import com.gameduca.entity.Tema;
+import com.gameduca.entity.dto.ArtefactoCompraDTO;
 import com.gameduca.entity.dto.ArtefactoDTO;
 import com.gameduca.service.ArtefactoService;
 import com.gameduca.service.AsignaturaService;
@@ -38,7 +39,7 @@ public class ArtefactoController {
     }
     
     @GetMapping("/asignaturas/{idAsignatura}/artefactosAlumno")
-    public List<Artefacto> obtenerArtefactosDeUnAlumno(@PathVariable Long idAsignatura) throws Exception{
+    public List<ArtefactoCompraDTO> obtenerArtefactosDeUnAlumno(@PathVariable Long idAsignatura) throws Exception{
     	return compraService.obtenerTodosArtefactosUsuario(idAsignatura);
     }
     

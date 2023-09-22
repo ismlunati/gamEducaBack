@@ -7,6 +7,7 @@ public class RetoConEstadoDTO {
 	
 	private Reto reto;
     private EstadoAlumnoReto estado;
+    private Long idAlumnoReto;
     
 	public Reto getReto() {
 		return reto;
@@ -20,7 +21,11 @@ public class RetoConEstadoDTO {
 	public void setEstado(EstadoAlumnoReto estado) {
 		this.estado = estado;
 	}
-    
-    
+	public Long getIdAlumnoReto() {
+		return idAlumnoReto;
+	}
+	public void setIdAlumnoReto(Long idAlumnoReto) {
+		this.idAlumnoReto = idAlumnoReto;
+	}
 
 }

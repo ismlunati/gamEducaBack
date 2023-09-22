@@ -15,9 +15,12 @@ import com.gameduca.entity.Alumno;
 import com.gameduca.entity.AlumnoAsignatura;
 import com.gameduca.entity.Artefacto;
 import com.gameduca.entity.Compra;
+import com.gameduca.entity.EstadoArtefacto;
 import com.gameduca.entity.EstadoCompra;
 import com.gameduca.entity.Reto;
 import com.gameduca.entity.RolNombre;
+import com.gameduca.entity.dto.ArtefactoCompraDTO;
+import com.gameduca.entity.dto.mapper.ArtefactoCompraDTOMapper;
 import com.gameduca.repository.CompraRepository;
 import com.gameduca.repository.LogroRepository;
 
@@ -34,6 +37,9 @@ public class CompraService {
     @Autowired
     AlumnoService alumnoService;
     
+    @Autowired
+    ArtefactoCompraDTOMapper artefactoCompraDTOMapper;
+    
     public List<Compra> obtenerTodasComprasUsuario(Long idAsignatura){
     	List<Compra> listaCompras = new ArrayList<>();
     	UserDetails usuario = (UserDetails) SecurityContextHolder.getContext().getAuthentication()
@@ -46,16 +52,20 @@ public class CompraService {
     	return listaCompras;
     }
     
-    public List<Artefacto> obtenerTodosArtefactosUsuario(Long idAsignatura){
-    	List<Artefacto> listaArtefacto = new ArrayList<>();
+    public List<ArtefactoCompraDTO> obtenerTodosArtefactosUsuario(Long idAsignatura){
+    	List<ArtefactoCompraDTO> listaArtefactoCompraDTO = new ArrayList<>();
+    	List<Compra> listaCompra = new ArrayList<>();
     	UserDetails usuario = (UserDetails) SecurityContextHolder.getContext().getAuthentication()
 				.getPrincipal();
     	String rol = usuario.getAuthorities().iterator().next().getAuthority();
     	String nombreUsuario = usuario.getUsername();
     	if(rol.equals(RolNombre.ROLE_USER.name())) {
-    		listaArtefacto = compraRepository.findArtefactosByAlumnoyAsignaturas(nombreUsuario, idAsignatura);
+    		listaCompra = compraRepository.findArtefactosByAlumnoyAsignaturas(nombreUsuario, idAsignatura);
+    	} else {
+    		listaCompra = compraRepository.findComprasByAsignaturas(idAsignatura);
     	}
-    	return listaArtefacto;
+		listaArtefactoCompraDTO = artefactoCompraDTOMapper.toDTO(listaCompra);
+    	return listaArtefactoCompraDTO;
     }
     
     public Compra obtenerCompra(Long idCompra) {
@@ -70,7 +80,7 @@ public class CompraService {
     public Compra crearCompra(Long idArtefacto, Long idAsignatura) throws Exception {
     	Compra compra = new Compra();
     	Artefacto artefacto = artefactoService.obtenerArtefacto(idArtefacto);
-    	if(!artefacto.isNew() && artefacto.getEstado().equals("Activo")) {
+    	if(!artefacto.isNew() && artefacto.getEstado().equals(EstadoArtefacto.PUBLICADO)) {
     		UserDetails usuario = (UserDetails) SecurityContextHolder.getContext().getAuthentication()
     				.getPrincipal();
         	String rol = usuario.getAuthorities().iterator().next().getAuthority();
@@ -89,6 +99,7 @@ public class CompraService {
         	}
     		
     	}
+    	compraRepository.save(compra);
     	return compra;
     }
     

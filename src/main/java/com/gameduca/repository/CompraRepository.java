@@ -15,7 +15,10 @@ public interface CompraRepository extends CrudRepository<Compra, Long> {
 	
 	@Query("SELECT compra FROM Compra compra where compra.alumno.usuario.nombreUsuario =:nombreUsuario and compra.artefacto.asignatura.id =:idAsignatura")
 	public List<Compra> findComprasByAlumnoyAsignaturas(@Param("nombreUsuario") String nombreUsuario, @Param("idAsignatura") Long idAsignatura);
+	
+	@Query("SELECT compra FROM Compra compra where compra.artefacto.asignatura.id =:idAsignatura")
+	public List<Compra> findComprasByAsignaturas(@Param("idAsignatura") Long idAsignatura);
 
-	@Query("SELECT compra.artefacto FROM Compra compra where compra.alumno.usuario.nombreUsuario =:nombreUsuario and compra.artefacto.asignatura.id =:idAsignatura")
-	public List<Artefacto> findArtefactosByAlumnoyAsignaturas(@Param("nombreUsuario") String nombreUsuario, @Param("idAsignatura") Long idAsignatura);
+	@Query("SELECT compra FROM Compra compra where compra.alumno.usuario.nombreUsuario =:nombreUsuario and compra.artefacto.asignatura.id =:idAsignatura")
+	public List<Compra> findArtefactosByAlumnoyAsignaturas(@Param("nombreUsuario") String nombreUsuario, @Param("idAsignatura") Long idAsignatura);
 }

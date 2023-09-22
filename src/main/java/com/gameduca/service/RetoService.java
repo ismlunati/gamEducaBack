@@ -129,7 +129,7 @@ public class RetoService {
     	return result;
     }
     
-    public boolean finalizarReto(Reto reto) throws Exception {
+    public boolean finalizarReto(Long idReto) throws Exception {
     	boolean result = false;
     	UserDetails usuario = (UserDetails) SecurityContextHolder.getContext().getAuthentication()
 				.getPrincipal();
@@ -137,6 +137,7 @@ public class RetoService {
     	String nombreUsuario = usuario.getUsername();
     	if(rol.equals(RolNombre.ROLE_USER.name())) {
     		GameducaUtils utils = new GameducaUtils();
+    		Reto reto = retoRepository.findById(idReto).get();
     		if(reto.isTemporal() && utils.entraEnRangoHorario(reto.getFechaInicio(), reto.getFechaFin()) && !reto.isAutomatico()) {
     			AlumnoReto alumnoReto = alumnoRetoRepository.findAlumnoRetoByRetoyAlumno(nombreUsuario, reto.getId());
     			if(alumnoReto.getEstado().equals(EstadoAlumnoReto.EN_CURSO)) {

@@ -50,6 +50,7 @@ public class AlumnoRetoDTOMapper {
 
 			retoConEstado.setReto(reto);
 			retoConEstado.setEstado(alumnoReto.getEstado());
+			retoConEstado.setIdAlumnoReto(alumnoReto.getId());
 			listaRetoConEstado.add(retoConEstado);
 			ultimoAlumno = alumno;
 			i++;

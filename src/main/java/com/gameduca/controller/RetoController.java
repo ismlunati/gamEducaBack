@@ -56,9 +56,9 @@ public class RetoController {
     	return retoService.asignarseReto(idReto);
     } 
     
-    @PostMapping("/asignaturas/{idAsignatura}/finalizarReto")
-    public boolean finalizarReto(@RequestBody Reto reto) throws Exception {
-    	return retoService.finalizarReto(reto);
+    @PostMapping("/asignaturas/{idAsignatura}/finalizarReto/{idReto}")
+    public boolean finalizarReto(@PathVariable Long idReto) throws Exception {
+    	return retoService.finalizarReto(idReto);
     } 
     
     @PostMapping("asignaturas/{idAsignatura}/retoAceptar/{idAlumnoReto}")

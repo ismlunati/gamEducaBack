@@ -38,6 +38,9 @@ public class CompraService {
     AlumnoService alumnoService;
     
     @Autowired
+    PuntosService puntosService;
+    
+    @Autowired
     ArtefactoCompraDTOMapper artefactoCompraDTOMapper;
     
     public List<Compra> obtenerTodasComprasUsuario(Long idAsignatura){
@@ -111,6 +114,33 @@ public class CompraService {
 			compra.setEstado(EstadoCompra.COMPRADO); 
 		}
     	return compra;
+    }
+    
+    public boolean canjearCompra(Long idCompra) {
+    	boolean result = false;
+    	Compra compra = compraRepository.findById(idCompra).get();
+    	if(compra.getEstado().equals(EstadoCompra.COMPRADO)) {
+    		compra.setEstado(EstadoCompra.PETICION_DE_USO);
+    		compraRepository.save(compra);
+    		result = true;
+    	}
+    	return result;
+    }
+    
+    public boolean aceptarRechazarCanjeoCompra(Long idCompra, Long idAsignatura, boolean aceptar) {
+    	boolean result = false;
+    	Compra compra = compraRepository.findById(idCompra).get();
+    	if(compra.getEstado().equals(EstadoCompra.PETICION_DE_USO)) {
+    		if(aceptar) {
+        		compra.setEstado(EstadoCompra.CANJEADO);
+    		} else {
+        		compra.setEstado(EstadoCompra.RECHAZADO);
+        		puntosService.asignarPuntos(compra.getAlumno().getId(), idAsignatura, compra.getArtefacto().getCostePuntos());
+    		}
+    		compraRepository.save(compra);
+    		result = true;
+    	}
+    	return result;
     }
 
 }

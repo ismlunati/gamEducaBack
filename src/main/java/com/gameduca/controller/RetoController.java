@@ -66,6 +66,11 @@ public class RetoController {
     	return retoService.aceptarRechazarReto(idAlumnoReto, true);
     }
     
+    @PostMapping("asignaturas/{idAsignatura}/retoCambiarDecision/{idAlumnoReto}")
+    public boolean cambiarDecisionReto(@PathVariable Long idAlumnoReto) throws Exception {
+    	return retoService.cambiarDecisionReto(idAlumnoReto);
+    }
+    
     @PostMapping("asignaturas/{idAsignatura}/retoRechazar/{idAlumnoReto}")
     public boolean rechazarReto(@PathVariable Long idAlumnoReto) throws Exception {
     	return retoService.aceptarRechazarReto(idAlumnoReto, false);

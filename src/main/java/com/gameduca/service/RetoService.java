@@ -161,6 +161,17 @@ public class RetoService {
     	return true;
     }
     
+    public boolean cambiarDecisionReto(Long idAlumnoReto) {
+    	AlumnoReto alumnoReto = alumnoRetoRepository.findById(idAlumnoReto).get();
+    	if(alumnoReto.getEstado().equals(EstadoAlumnoReto.COMPLETADO)) {
+    		alumnoReto.setEstado(EstadoAlumnoReto.RECHAZADO);
+    	} else {
+    		alumnoReto.setEstado(EstadoAlumnoReto.COMPLETADO);
+    	}
+    	alumnoRetoRepository.save(alumnoReto);
+    	return true;
+    }
+    
     public Reto editarReto(Long idAsignatura, Long idReto, Reto newReto) throws Exception {
     	Asignatura asignatura = asignaturaService.buscarAsignaturaPorId(idAsignatura);
     	return retoRepository.findById(idReto)

@@ -32,6 +32,20 @@ public class CompraController {
 	public Compra crearCompra(@PathVariable Long idArtefacto, @PathVariable Long idAsignatura) throws Exception{
 		return compraService.crearCompra(idArtefacto, idAsignatura);
 	}
-	
+    
+    @GetMapping("/asignaturas/{idAsignatura}/compras/canjearCompra/{idCompra}")
+	public boolean canjearCompra(@PathVariable Long idAsignatura, @PathVariable Long idCompra) throws Exception{
+		return compraService.canjearCompra(idCompra);
+	}
+    
+    @GetMapping("/asignaturas/{idAsignatura}/compras/aceptarCanjeoCompra/{idCompra}")
+	public boolean aceptarCanjeoCompra(@PathVariable Long idAsignatura, @PathVariable Long idCompra) throws Exception{
+		return compraService.aceptarRechazarCanjeoCompra(idCompra, idAsignatura, true);
+	}
+    
+    @GetMapping("/asignaturas/{idAsignatura}/compras/rechazarCanjeoCompra/{idCompra}")
+	public boolean rechazarCanjeoCompra(@PathVariable Long idAsignatura, @PathVariable Long idCompra) throws Exception{
+		return compraService.aceptarRechazarCanjeoCompra(idCompra, idAsignatura, false);
+	}
 
 }

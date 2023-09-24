@@ -21,6 +21,7 @@ import com.gameduca.entity.Reto;
 import com.gameduca.entity.RolNombre;
 import com.gameduca.entity.dto.ArtefactoCompraDTO;
 import com.gameduca.entity.dto.mapper.ArtefactoCompraDTOMapper;
+import com.gameduca.repository.AlumnoAsignaturaRepository;
 import com.gameduca.repository.CompraRepository;
 import com.gameduca.repository.LogroRepository;
 
@@ -30,6 +31,9 @@ public class CompraService {
 	
     @Autowired
     CompraRepository compraRepository;
+    
+    @Autowired
+    AlumnoAsignaturaRepository alumnoAsignaturaRepository;
     
     @Autowired
     ArtefactoService artefactoService;
@@ -112,6 +116,8 @@ public class CompraService {
 			compra.setAlumno(alumno);
 			compra.setArtefacto(artefacto);
 			compra.setEstado(EstadoCompra.COMPRADO); 
+			alumnoAsignatura.setPuntos(alumnoAsignatura.getPuntos() - artefacto.getCostePuntos());
+			alumnoAsignaturaRepository.save(alumnoAsignatura);
 		}
     	return compra;
     }

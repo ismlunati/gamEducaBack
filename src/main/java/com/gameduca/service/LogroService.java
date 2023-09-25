@@ -22,6 +22,7 @@ import com.gameduca.entity.dto.LogroDTO;
 import com.gameduca.entity.dto.mapper.ArtefactoDTOMapper;
 import com.gameduca.entity.dto.mapper.LogroDTOMapper;
 import com.gameduca.repository.AlumnoRetoRepository;
+import com.gameduca.repository.AsignaturaRepository;
 import com.gameduca.repository.LogroRepository;
 
 @Service
@@ -30,6 +31,9 @@ public class LogroService {
 	
     @Autowired
     LogroRepository logroRepository;
+    
+    @Autowired
+    AsignaturaRepository asignaturaRepository;
     
     @Autowired
     RetoService retoService;
@@ -97,7 +101,9 @@ public class LogroService {
     	}
     }
     
-    public Logro añadirLogro(Logro logro) throws Exception {
+    public Logro añadirLogro(Long idAsignatura, Logro logro) throws Exception {
+    	Asignatura asignatura = asignaturaRepository.findById(idAsignatura).get();
+    	logro.setAsignatura(asignatura);
     	logroRepository.save(logro);
     	return logro;
     }
@@ -109,6 +115,7 @@ public class LogroService {
     	        	  logro.setDescripcion(newLogro.getDescripcion());
     	        	  logro.setRetos(newLogro.getRetos());
     	        	  logro.setArtefactoLogros(newLogro.getArtefactoLogros());
+    	        	  logro.setAsignatura(newLogro.getAsignatura());
     	            return logroRepository.save(logro);
     	          })
     	          .orElseGet(() -> {

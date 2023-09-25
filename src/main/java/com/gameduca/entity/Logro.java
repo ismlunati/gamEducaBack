@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.JoinTable;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -16,6 +17,7 @@ import javax.validation.constraints.NotEmpty;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
@@ -43,6 +45,12 @@ public class Logro extends BaseEntity {
 //    @OneToMany(mappedBy = "logro", cascade = CascadeType.ALL, orphanRemoval = true)
     @OneToOne(mappedBy = "logro", cascade = CascadeType.ALL, orphanRemoval = true)
     private ArtefactoLogro artefactoLogros;
+    
+    @ManyToOne
+    @JoinColumn(name = "ASIGNATURA_ID")
+//    @JsonBackReference(value="reto-asignatura")
+    @JsonIgnore
+    private Asignatura asignatura;
     
 
 	public String getNombre() {
@@ -84,6 +92,14 @@ public class Logro extends BaseEntity {
 	public void setArtefactoLogros(ArtefactoLogro artefactoLogros) {
 		this.artefactoLogros = artefactoLogros;
 	}
+	
+	public Asignatura getAsignatura() {
+		return asignatura;
+	}
+
+	public void setAsignatura(Asignatura asignatura) {
+		this.asignatura = asignatura;
+	}
 
 	public Logro(@NotEmpty(message = "El nombre no puede estar vacío") String nombre,
 			@NotEmpty(message = "La descripción no puede estar vacía") String descripcion, List<Reto> retos) {
@@ -103,5 +119,7 @@ public class Logro extends BaseEntity {
 	}
     
 	public Logro() {}
+	
+	
 
 }

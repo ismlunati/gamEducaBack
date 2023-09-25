@@ -2,7 +2,6 @@ package com.gameduca.entity;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -16,6 +15,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
@@ -57,6 +57,11 @@ public class Asignatura extends BaseEntity {
     @OneToMany(mappedBy = "asignatura")
     @JsonManagedReference(value="reto-asignatura")
     private List<Reto> retos;
+    
+    @OneToMany(mappedBy = "asignatura")
+//    @JsonManagedReference(value="reto-asignatura")
+    @JsonIgnore
+    private List<Logro> logros;
     
 //    @JsonManagedReference(value="pregunta-asignatura")
     @OneToMany(mappedBy = "asignatura", cascade = CascadeType.ALL, orphanRemoval = true)

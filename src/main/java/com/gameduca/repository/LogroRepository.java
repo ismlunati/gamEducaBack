@@ -10,6 +10,6 @@ import com.gameduca.entity.Logro;
 
 public interface LogroRepository extends CrudRepository<Logro, Long> {
 
-	@Query("SELECT artefactoLogro.logro FROM ArtefactoLogro artefactoLogro where artefactoLogro.artefacto.asignatura.id =:idAsignatura")
+	@Query("SELECT logro FROM Logro logro where logro.asignatura.id =:idAsignatura")
 	public List<Logro> findLogrosByAsignatura(@Param("idAsignatura") Long idAsignatura);
 }

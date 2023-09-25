@@ -51,8 +51,8 @@ public class LogroController {
     }
     
     @PostMapping("/asignaturas/{idAsignatura}/logros")
-    public Logro añadirLogro(@RequestBody Logro logro) throws Exception {
-    	return logroService.añadirLogro(logro);
+    public Logro añadirLogro(@PathVariable Long idAsignatura, @RequestBody Logro logro) throws Exception {
+    	return logroService.añadirLogro(idAsignatura, logro);
     } 
     
     @PutMapping("/asignaturas/{idAsignatura}/logros/{idLogro}")

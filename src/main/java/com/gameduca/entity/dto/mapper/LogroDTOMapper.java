@@ -34,7 +34,9 @@ public class LogroDTOMapper {
         dto.setImagen(logro.getImagen());
         dto.setRetos(logro.getRetos().stream().map(reto -> retoDTOMapper.toLogroDTO(reto)).collect(Collectors.toList()));
 //        dto.setArtefactoLogros(logro.getArtefactoLogros().stream().map(artefactoLogro -> artefactoLogroDTOMapper.toDTOLogro(artefactoLogro)).collect(Collectors.toList()));
-        dto.setArtefactoLogros(artefactoLogroDTOMapper.toDTOLogro(logro.getArtefactoLogros()));
+        if(logro.getArtefactoLogros()!= null) {
+            dto.setArtefactoLogros(artefactoLogroDTOMapper.toDTOLogro(logro.getArtefactoLogros()));
+        }
         return dto;
     }
     

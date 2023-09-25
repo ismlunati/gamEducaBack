@@ -26,6 +26,7 @@ import com.gameduca.entity.dto.RetoDTO;
 import com.gameduca.entity.dto.mapper.AlumnoRetoDTOMapper;
 import com.gameduca.entity.dto.mapper.LogroDTOMapper;
 import com.gameduca.entity.dto.mapper.RetoDTOMapper;
+import com.gameduca.repository.AlumnoAsignaturaRepository;
 import com.gameduca.repository.AlumnoRetoRepository;
 import com.gameduca.repository.LogroRepository;
 import com.gameduca.repository.RetoRepository;
@@ -45,7 +46,13 @@ public class RetoService {
     private AlumnoService alumnoService;
     
     @Autowired
+    private CompraService compraService;
+    
+    @Autowired
     AlumnoRetoRepository alumnoRetoRepository;
+    
+    @Autowired
+    AlumnoAsignaturaRepository alumnoAsignaturaRepository;
     
     @Autowired
     private RetoDTOMapper retoDTOMapper;
@@ -138,7 +145,7 @@ public class RetoService {
     	if(rol.equals(RolNombre.ROLE_USER.name())) {
     		GameducaUtils utils = new GameducaUtils();
     		Reto reto = retoRepository.findById(idReto).get();
-    		if(reto.isTemporal() && utils.entraEnRangoHorario(reto.getFechaInicio(), reto.getFechaFin()) && !reto.isAutomatico()) {
+    		if(((reto.isTemporal() && utils.entraEnRangoHorario(reto.getFechaInicio(), reto.getFechaFin())) || !reto.isTemporal()) && !reto.isAutomatico()) {
     			AlumnoReto alumnoReto = alumnoRetoRepository.findAlumnoRetoByRetoyAlumno(nombreUsuario, reto.getId());
     			if(alumnoReto.getEstado().equals(EstadoAlumnoReto.EN_CURSO)) {
             		alumnoReto.setEstado(EstadoAlumnoReto.PETICION_ENVIADA);
@@ -152,12 +159,39 @@ public class RetoService {
     
     public boolean aceptarRechazarReto(Long idAlumnoReto, boolean aceptado) {
     	AlumnoReto alumnoReto = alumnoRetoRepository.findById(idAlumnoReto).get();
+    	boolean tieneLogro = false;
     	if(aceptado) {
     		alumnoReto.setEstado(EstadoAlumnoReto.COMPLETADO);
+        	alumnoRetoRepository.save(alumnoReto);
+        	AlumnoAsignatura alumnoAsignatura = alumnoAsignaturaRepository.findAlumnoAsignaturaByIdAlumnoIdAsignatura(alumnoReto.getId(), alumnoReto.getReto().getAsignatura().getId());
+        	alumnoAsignatura.setPuntos(alumnoAsignatura.getPuntos() + alumnoReto.getReto().getPuntosOtorgados());
+        	alumnoAsignaturaRepository.save(alumnoAsignatura);
+    		Logro logroRelacionadoAlReto = alumnoReto.getReto().getLogro();
+    		List<Reto> retosTotalesDelLogro = logroRelacionadoAlReto.getRetos();
+    		for(Reto reto : retosTotalesDelLogro) {
+    			AlumnoReto alumnoRetoDelLogro = alumnoRetoRepository.findAlumnoRetoByRetoyAlumno(alumnoReto.getAlumno().getUsuario().getNombreUsuario(), reto.getId());
+    			if(null == alumnoRetoDelLogro) {
+    				tieneLogro = false;
+    				break;
+    			} else {
+    				if(alumnoRetoDelLogro.getEstado().equals(EstadoAlumnoReto.COMPLETADO)) {
+    					tieneLogro = true;
+    				} else {
+    					tieneLogro = false;
+    					break;
+    				}
+    			}
+    		}
+    		if(tieneLogro) {
+    			if(logroRelacionadoAlReto.getArtefactoLogros().isObtener()) {
+    				compraService.darArtefactoObtenido(alumnoReto.getAlumno(), logroRelacionadoAlReto.getArtefactoLogros().getArtefacto());
+    			}
+    		}
+    		
     	} else {
     		alumnoReto.setEstado(EstadoAlumnoReto.RECHAZADO);
+        	alumnoRetoRepository.save(alumnoReto);
     	}
-    	alumnoRetoRepository.save(alumnoReto);
     	return true;
     }
     

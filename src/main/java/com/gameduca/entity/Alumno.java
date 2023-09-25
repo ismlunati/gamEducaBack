@@ -43,7 +43,7 @@ public class Alumno extends BaseEntity{
     private List<Pregunta> preguntas = new ArrayList<>();
 
     @JsonIgnore
-    @OneToMany(mappedBy = "alumnos", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "alumno", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ReportePregunta> reportesPreguntas;
     
     

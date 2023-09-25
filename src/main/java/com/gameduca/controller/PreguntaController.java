@@ -31,7 +31,7 @@ public class PreguntaController {
     	return preguntaService.crearPregunta(pregunta, idTema, respuestas,respuestaCorrecta);
     } 
     
-    @GetMapping("/asignaturas/{idAsignatura}/test/{idTest}/reportarPregunta/{idPregunta}")
+    @PostMapping("/asignaturas/{idAsignatura}/test/{idTest}/reportarPregunta/{idPregunta}")
     public ReportePregunta crearReportarPregunta(@RequestBody ReportePregunta reportePregunta, @PathVariable Long idPregunta) {
     	return preguntaService.crearReportarPregunta(reportePregunta, idPregunta);
     }

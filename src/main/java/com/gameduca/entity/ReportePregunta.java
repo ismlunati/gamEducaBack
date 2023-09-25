@@ -23,7 +23,6 @@ public class ReportePregunta extends BaseEntity {
     private String texto;
     
     @Column(name="MOTIVO")
-    @NotEmpty(message="El motivo del reporte no puede estar vacio") 
     private MotivoReportePregunta motivo;
     
     @Column(name="ESTADO")

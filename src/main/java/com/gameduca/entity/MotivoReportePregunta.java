@@ -1,0 +1,11 @@
+package com.gameduca.entity;
+
+public enum MotivoReportePregunta {
+	
+	RESPUESTA_INCORRECTA,
+	PREGUNTA_MAL_FORMULADA,
+	PREGUNTA_DIFICIL,
+	PREGUNTA_IRRELEVANTE,
+	PREGUNTA_DUPLICADA,
+	OTROS
+}

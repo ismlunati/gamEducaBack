@@ -50,6 +50,11 @@ public class Pregunta extends BaseEntity {
     @OneToMany(mappedBy = "pregunta")
     private List<TestPreguntas> testPreguntas = new ArrayList<>();
     
+    
+    @JsonIgnore
+    @OneToMany(mappedBy = "pregunta", cascade = CascadeType.ALL)
+    private List<ReportePregunta> reportesPreguntas;
+    
     public Pregunta() {}
 
 	public String getEnunciado() {
@@ -99,7 +104,14 @@ public class Pregunta extends BaseEntity {
 	public void setTestPreguntas(List<TestPreguntas> testPreguntas) {
 		this.testPreguntas = testPreguntas;
 	}
-    
-    
+
+	public List<ReportePregunta> getReportesPreguntas() {
+		return reportesPreguntas;
+	}
+
+	public void setReportesPreguntas(List<ReportePregunta> reportesPreguntas) {
+		this.reportesPreguntas = reportesPreguntas;
+	}
+	
 }
 

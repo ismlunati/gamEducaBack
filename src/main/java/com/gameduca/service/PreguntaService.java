@@ -12,10 +12,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.gameduca.entity.Alumno;
+import com.gameduca.entity.EstadoReportePregunta;
 import com.gameduca.entity.Pregunta;
+import com.gameduca.entity.ReportePregunta;
 import com.gameduca.entity.Respuesta;
 import com.gameduca.entity.Tema;
 import com.gameduca.repository.PreguntaRepository;
+import com.gameduca.repository.ReportePreguntaRepository;
 import com.gameduca.repository.RespuestaRepository;
 import com.gameduca.repository.TemaRepository;
 
@@ -31,6 +34,9 @@ public class PreguntaService {
     
     @Autowired
     TemaRepository temaRepository;
+    
+    @Autowired
+    ReportePreguntaRepository reportePreguntaRepository;
     
     @Autowired
     AlumnoService alumnoService;
@@ -64,6 +70,18 @@ public class PreguntaService {
     	return pregunta;
     }
     
+    
+    public ReportePregunta crearReportarPregunta(ReportePregunta reportePregunta, Long idPregunta) {
+    	Pregunta pregunta = preguntaRepository.findById(idPregunta).get();
+    	UserDetails usuario = (UserDetails) SecurityContextHolder.getContext().getAuthentication()
+				.getPrincipal();
+    	Alumno alumno = alumnoService.obtenerAlumnoPorNombre(usuario.getUsername());
+    	reportePregunta.setAlumno(alumno);
+    	reportePregunta.setEstado(EstadoReportePregunta.ENVIADO);
+    	reportePregunta.setPregunta(pregunta);
+    	reportePreguntaRepository.save(reportePregunta);
+    	return reportePregunta;
+    }
     
 
 }

@@ -15,6 +15,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
@@ -41,7 +42,11 @@ public class Alumno extends BaseEntity{
     @OneToMany(mappedBy = "alumno", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Pregunta> preguntas = new ArrayList<>();
 
-
+    @JsonIgnore
+    @OneToMany(mappedBy = "alumnos", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ReportePregunta> reportesPreguntas;
+    
+    
 	public List<Pregunta> getPreguntas() {
 		return preguntas;
 	}

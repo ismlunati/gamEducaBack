@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.gameduca.entity.Pregunta;
+import com.gameduca.entity.ReportePregunta;
 import com.gameduca.entity.Test;
 import com.gameduca.entity.dto.PreguntaElegibleDTO;
 import com.gameduca.entity.dto.ResultadoTestDTO;
@@ -29,5 +30,10 @@ public class PreguntaController {
     public Pregunta crearPregunta(@RequestBody Pregunta pregunta, @PathVariable Long idTema, @RequestParam("respuestas") String respuestas, @RequestParam("respuestaCorrecta") String respuestaCorrecta) throws Exception {
     	return preguntaService.crearPregunta(pregunta, idTema, respuestas,respuestaCorrecta);
     } 
+    
+    @GetMapping("/asignaturas/{idAsignatura}/test/{idTest}/reportarPregunta/{idPregunta}")
+    public ReportePregunta crearReportarPregunta(@RequestBody ReportePregunta reportePregunta, @PathVariable Long idPregunta) {
+    	return preguntaService.crearReportarPregunta(reportePregunta, idPregunta);
+    }
 
 }

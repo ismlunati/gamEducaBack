@@ -26,4 +26,7 @@ public interface TestPreguntasRepository extends CrudRepository<TestPreguntas, L
 	
 	@Query("SELECT tp FROM TestPreguntas tp WHERE tp.test.id = :testId AND tp.idAlumnoQueResponde = :alumnoId and tp.numeroIntento = :numeroIntento ORDER BY tp.id ASC")
 	public List<TestPreguntas> findUltimoTestRespondido(@Param("testId") Long testId, @Param("alumnoId") Long alumnoId, @Param("numeroIntento") Integer numeroIntento);
+
+	@Query("SELECT tp FROM TestPreguntas tp WHERE tp.pregunta.id = :preguntaId")
+	public List<TestPreguntas> findTestPreguntasByPregunta(@Param("preguntaId") Long preguntaId);
 }

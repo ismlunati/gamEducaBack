@@ -7,7 +7,7 @@ public class ResultadoTestDTO {
 	
 	private Integer numeroPreguntasTotales;
 	private Integer numeroPreguntasAcertadas;
-	private Integer puntuacion;
+	private Double puntuacion;
 	private List<PreguntaRespuestaSeleccionadaCorrectaDTO> preguntasRespuestas;
 	
 	public Integer getNumeroPreguntasTotales() {
@@ -22,10 +22,10 @@ public class ResultadoTestDTO {
 	public void setNumeroPreguntasAcertadas(Integer numeroPreguntasAcertadas) {
 		this.numeroPreguntasAcertadas = numeroPreguntasAcertadas;
 	}
-	public Integer getPuntuacion() {
+	public Double getPuntuacion() {
 		return puntuacion;
 	}
-	public void setPuntuacion(Integer puntuacion) {
+	public void setPuntuacion(Double puntuacion) {
 		this.puntuacion = puntuacion;
 	}
 	public List<PreguntaRespuestaSeleccionadaCorrectaDTO> getPreguntasRespuestas() {

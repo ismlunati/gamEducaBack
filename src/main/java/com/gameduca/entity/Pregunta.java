@@ -24,6 +24,9 @@ public class Pregunta extends BaseEntity {
     @NotEmpty(message="El enunciado no puede estar vacío") 
     private String enunciado;
     
+    @Column(name="INVALIDADA", nullable = false, columnDefinition = "boolean default false")
+    private boolean invalidada;
+    
 //    @JsonBackReference(value="pregunta-alumno")
     @JsonIgnore
     @ManyToOne
@@ -112,6 +115,14 @@ public class Pregunta extends BaseEntity {
 	public void setReportesPreguntas(List<ReportePregunta> reportesPreguntas) {
 		this.reportesPreguntas = reportesPreguntas;
 	}
-	
+
+	public boolean isInvalidada() {
+		return invalidada;
+	}
+
+	public void setInvalidada(boolean invalidada) {
+		this.invalidada = invalidada;
+	}
+
 }
 

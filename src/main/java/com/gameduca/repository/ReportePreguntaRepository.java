@@ -16,6 +16,12 @@ import java.util.Optional;
 
 @Repository
 public interface ReportePreguntaRepository extends CrudRepository<ReportePregunta, Long> {
+	
+	@Query("SELECT reportePregunta FROM ReportePregunta reportePregunta WHERE reportePregunta.alumno.usuario.nombreUsuario =:nombreUsuario")
+	List<ReportePregunta> findReportePreguntaByAlumno(@Param("nombreUsuario") String nombreUsuario);
+	
+	@Query("SELECT reportePregunta FROM ReportePregunta reportePregunta WHERE reportePregunta.pregunta.asignatura.id =:asignaturaId")
+	List<ReportePregunta> findReportePreguntaByAsignaturaId(@Param("asignaturaId") Long asignaturaId);
 
 
 }

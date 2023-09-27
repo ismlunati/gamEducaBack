@@ -4,6 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -19,6 +20,10 @@ public class TestPreguntas extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "PREGUNTA_ID")
     private Pregunta pregunta;
+    
+    @ManyToOne
+    @JoinColumn(name = "PUNTUACION_TEST_ID")
+    private PuntuacionTest puntuacionTest;
     
     @Column(name="ID_RESPUESTA_SELECCIONADA")
     private Long idRespuestaSeleccionada;
@@ -81,6 +86,23 @@ public class TestPreguntas extends BaseEntity {
 	public void setNumeroIntento(Integer numeroIntento) {
 		this.numeroIntento = numeroIntento;
 	}
+
+	public PuntuacionTest getPuntuacionTest() {
+		return puntuacionTest;
+	}
+
+	public void setPuntuacionTest(PuntuacionTest puntuacionTest) {
+		this.puntuacionTest = puntuacionTest;
+	}
+
+	@Override
+	public String toString() {
+		return "TestPreguntas [test=" + test + ", pregunta=" + pregunta + ", puntuacionTest=" + puntuacionTest
+				+ ", idRespuestaSeleccionada=" + idRespuestaSeleccionada + ", idAlumnoQueResponde="
+				+ idAlumnoQueResponde + ", respondida=" + respondida + ", numeroIntento=" + numeroIntento + "]";
+	}
+	
+	
 	
 }
 

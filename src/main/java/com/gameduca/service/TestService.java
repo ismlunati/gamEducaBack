@@ -1,5 +1,6 @@
 package com.gameduca.service;
 
+import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -17,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.gameduca.entity.Alumno;
 import com.gameduca.entity.Asignatura;
 import com.gameduca.entity.Pregunta;
+import com.gameduca.entity.PuntuacionTest;
 import com.gameduca.entity.Respuesta;
 import com.gameduca.entity.Test;
 import com.gameduca.entity.TestPreguntas;
@@ -25,9 +27,11 @@ import com.gameduca.entity.dto.PreguntaElegibleDTO;
 import com.gameduca.entity.dto.PreguntaRespuestaSeleccionadaCorrectaDTO;
 import com.gameduca.entity.dto.ResultadoTestDTO;
 import com.gameduca.repository.PreguntaRepository;
+import com.gameduca.repository.PuntuacionTestRepository;
 import com.gameduca.repository.RespuestaRepository;
 import com.gameduca.repository.TestPreguntasRepository;
 import com.gameduca.repository.TestRepository;
+import com.gameduca.utils.ResultadoCalculoAuxiliar;
 
 @Service
 @Transactional
@@ -50,6 +54,9 @@ public class TestService {
     
     @Autowired
     TestPreguntasRepository testPreguntasRepository;
+    
+    @Autowired
+    PuntuacionTestRepository puntuacionTestRepository;
     
     public Test crearTest(Test test, Long idAsignatura, String idPreguntasSeleccionadas) throws Exception {
     	List<Pregunta> preguntasElegidas = new ArrayList<>();
@@ -194,6 +201,17 @@ public class TestService {
     	Integer numeroIntento = listaNumeroIntento.get(0);
     	List<TestPreguntas> listaTestPreguntasRespondidas = testPreguntasRepository.findUltimoTestRespondido(idTest, idAsignatura, numeroIntento);
     	Test test = testRepository.findById(idTest).get();
+    	ResultadoCalculoAuxiliar resultado = calculoPuntuacion(listaTestPreguntasRespondidas);
+        preguntasRespuestas = resultado.getPreguntasRespuestas();
+    	result.setNumeroPreguntasTotales(test.getNumeroPreguntas());
+    	result.setNumeroPreguntasAcertadas(resultado.getPreguntasAcertadas());
+    	result.setPreguntasRespuestas(preguntasRespuestas);
+    	result.setPuntuacion(resultado.getResultado());
+    	return result;   	
+    }        
+    
+    public ResultadoCalculoAuxiliar calculoPuntuacion(List<TestPreguntas> listaTestPreguntasRespondidas) {
+    	List<PreguntaRespuestaSeleccionadaCorrectaDTO> preguntasRespuestas = new ArrayList<>();
     	Integer preguntasAcertadas = 0;
     	for(TestPreguntas testPreguntas : listaTestPreguntasRespondidas) {
     		PreguntaRespuestaSeleccionadaCorrectaDTO preguntaRespuestaSeleccionadaCorrecta = new PreguntaRespuestaSeleccionadaCorrectaDTO();
@@ -209,11 +227,17 @@ public class TestService {
     		preguntaRespuestaSeleccionadaCorrecta.setPregunta(testPreguntas.getPregunta());
     		preguntaRespuestaSeleccionadaCorrecta.setRespuestas(listaRespuestas);
     		preguntasRespuestas.add(preguntaRespuestaSeleccionadaCorrecta);
-    	}   	
-    	result.setNumeroPreguntasTotales(test.getNumeroPreguntas());
-    	result.setNumeroPreguntasAcertadas(preguntasAcertadas);
-    	result.setPreguntasRespuestas(preguntasRespuestas);
-    	return result;   	
-    }        
+    	} 
+    	PuntuacionTest puntuacionTest = new PuntuacionTest();
+    	Double resultado = ( (double)preguntasAcertadas/listaTestPreguntasRespondidas.size())*10;
+    	puntuacionTest.setPuntuacion(resultado);
+    	puntuacionTest.setTestPreguntasList(listaTestPreguntasRespondidas);
+    	puntuacionTestRepository.save(puntuacionTest);
+    	for(TestPreguntas testPreguntas : listaTestPreguntasRespondidas) {
+    		testPreguntas.setPuntuacionTest(puntuacionTest);
+    		testPreguntasRepository.save(testPreguntas);
+    	}
+        return new ResultadoCalculoAuxiliar(preguntasRespuestas, preguntasAcertadas, resultado);
+    }
 }
 

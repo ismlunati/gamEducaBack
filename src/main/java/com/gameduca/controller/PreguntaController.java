@@ -35,5 +35,19 @@ public class PreguntaController {
     public ReportePregunta crearReportarPregunta(@RequestBody ReportePregunta reportePregunta, @PathVariable Long idPregunta) {
     	return preguntaService.crearReportarPregunta(reportePregunta, idPregunta);
     }
-
+    
+    @GetMapping("/asignaturas/{idAsignatura}/reportePreguntas")
+    public List<ReportePregunta> obtenerReportarPregunta(@PathVariable Long idAsignatura) {
+    	return preguntaService.crearReportarPregunta(idAsignatura);
+    }
+    
+    @GetMapping("/asignaturas/{idAsignatura}/reportePreguntas/{idReportePregunta}/aceptar")
+    public ReportePregunta aceptarReportarPregunta(@PathVariable Long idReportePregunta) {
+    	return preguntaService.aceptarRechazarReportarPregunta(idReportePregunta, true);
+    }
+    
+    @GetMapping("/asignaturas/{idAsignatura}/reportePreguntas/{idReportePregunta}/rechazar")
+    public ReportePregunta rechazarReportarPregunta(@PathVariable Long idReportePregunta) {
+    	return preguntaService.aceptarRechazarReportarPregunta(idReportePregunta, false);
+    }
 }

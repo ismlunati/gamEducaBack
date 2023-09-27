@@ -10,7 +10,7 @@ import com.gameduca.entity.Pregunta;
 
 public interface PreguntaRepository extends CrudRepository<Pregunta, Long>{
 	
-	@Query("SELECT p FROM Pregunta p WHERE p.asignatura.id = :asignaturaId AND p.tema.id IN :temas")
+	@Query("SELECT p FROM Pregunta p WHERE p.asignatura.id = :asignaturaId AND p.tema.id IN :temas and p.invalidada = false")
 	public List<Pregunta> findPreguntasByAsignaturaAndTemas(@Param("asignaturaId") Long asignaturaId, @Param("temas") Long[] temas);
 	
 	@Query("SELECT p FROM Pregunta p WHERE p.id IN :ids")

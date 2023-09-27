@@ -70,6 +70,8 @@ public class TestService {
                 savedTest = testRepository.save(test);
             	crearTestAuxiliar(savedTest, preguntasElegidas, null);
         	}
+    	} else {
+            savedTest = testRepository.save(test);
     	}
     	return savedTest;
     }

@@ -17,6 +17,7 @@ import com.gameduca.entity.dto.ArtefactoCompraDTO;
 import com.gameduca.entity.dto.ArtefactoDTO;
 import com.gameduca.entity.dto.EstadisticasPreguntasPorAlumnosDTO;
 import com.gameduca.entity.dto.EstadisticasPreguntasPorTemasDTO;
+import com.gameduca.entity.dto.EstadisticasReportesAlumnosDTO;
 import com.gameduca.entity.dto.EstadisticasTestPorAlumnosDTO;
 import com.gameduca.entity.dto.EstadisticasTestPorTestDTO;
 import com.gameduca.service.ArtefactoService;
@@ -49,5 +50,15 @@ public class EstadisticaController {
     @GetMapping("/asignaturas/{idAsignatura}/estadisticasTestPorAlumnos")
     public List<EstadisticasTestPorAlumnosDTO> obtenerEstadisticasTestPorAlumnos(@PathVariable Long idAsignatura) throws Exception{
     	return estadisticaService.obtenerEstadisticasTestPorAlumnos(idAsignatura);
+    }
+    
+    @GetMapping("/asignaturas/{idAsignatura}/estadisticasReportesRealizados")
+    public List<EstadisticasReportesAlumnosDTO> obtenerReportesQueHaRealizadoAlumno(@PathVariable Long idAsignatura) throws Exception{
+    	return estadisticaService.obtenerReportesQueHaRealizadoAlumno(idAsignatura);
+    }
+    
+    @GetMapping("/asignaturas/{idAsignatura}/estadisticasPreguntasReportadas")
+    public List<EstadisticasReportesAlumnosDTO> obtenerPreguntasQueHanSidoReportadas(@PathVariable Long idAsignatura) throws Exception{
+    	return estadisticaService.obtenerPreguntasQueHanSidoReportadas(idAsignatura);
     }
 }

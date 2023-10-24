@@ -20,6 +20,7 @@ import com.gameduca.entity.TestPreguntas;
 import com.gameduca.entity.dto.ArtefactoDTO;
 import com.gameduca.entity.dto.EstadisticasPreguntasPorAlumnosDTO;
 import com.gameduca.entity.dto.EstadisticasPreguntasPorTemasDTO;
+import com.gameduca.entity.dto.EstadisticasReportesAlumnosDTO;
 import com.gameduca.entity.dto.EstadisticasTestPorAlumnosDTO;
 import com.gameduca.entity.dto.EstadisticasTestPorTestDTO;
 import com.gameduca.entity.dto.mapper.ArtefactoDTOMapper;
@@ -27,6 +28,7 @@ import com.gameduca.entity.dto.mapper.EstadisticasDTOMapper;
 import com.gameduca.repository.ArtefactoRepository;
 import com.gameduca.repository.AsignaturaRepository;
 import com.gameduca.repository.PreguntaRepository;
+import com.gameduca.repository.ReportePreguntaRepository;
 import com.gameduca.repository.TestPreguntasRepository;
 import com.gameduca.repository.TestRepository;
 
@@ -39,6 +41,9 @@ public class EstadisticaService {
     
     @Autowired
     private TestPreguntasRepository testPreguntasRepository;
+    
+    @Autowired
+    private ReportePreguntaRepository reportePreguntaRepository;
     
     @Autowired
     private EstadisticasDTOMapper estadisticasDTOMapper;
@@ -64,7 +69,14 @@ public class EstadisticaService {
     	return estadisticasDTOMapper.mapperEstadisticasTestPorAlumnosDTO(listaTestAsignatura);
     }
     
-//    public List<EstadisticasPreguntasPorAlumnpsDTO> obtenerEstadisticasReportePreguntas(Long idAsignatura) {
-//    	
-//    }
+    public List<EstadisticasReportesAlumnosDTO> obtenerReportesQueHaRealizadoAlumno(Long idAsignatura) {
+    	List<EstadisticasReportesAlumnosDTO> result = reportePreguntaRepository.obtenerReportesRealizadosPorAlumno(idAsignatura);
+    	return result;
+    }
+    
+    public List<EstadisticasReportesAlumnosDTO> obtenerPreguntasQueHanSidoReportadas(Long idAsignatura) {
+    	List<EstadisticasReportesAlumnosDTO> result = reportePreguntaRepository.obtenerCantidadPreguntasReportadasDelAlumno(idAsignatura);
+    	return result;
+    }
+    
 }

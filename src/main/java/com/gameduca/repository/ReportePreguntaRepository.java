@@ -10,6 +10,7 @@ import com.gameduca.entity.Alumno;
 import com.gameduca.entity.ArtefactoLogro;
 import com.gameduca.entity.Asignatura;
 import com.gameduca.entity.ReportePregunta;
+import com.gameduca.entity.dto.EstadisticasReportesAlumnosDTO;
 
 import java.util.List;
 import java.util.Optional;
@@ -22,6 +23,12 @@ public interface ReportePreguntaRepository extends CrudRepository<ReportePregunt
 	
 	@Query("SELECT reportePregunta FROM ReportePregunta reportePregunta WHERE reportePregunta.pregunta.asignatura.id =:asignaturaId")
 	List<ReportePregunta> findReportePreguntaByAsignaturaId(@Param("asignaturaId") Long asignaturaId);
+
+	@Query("SELECT new com.gameduca.entity.dto.EstadisticasReportesAlumnosDTO(reportePregunta.alumno.usuario.nombreUsuario, reportePregunta.alumno.id, COUNT(reportePregunta)) FROM ReportePregunta reportePregunta  WHERE reportePregunta.pregunta.asignatura.id =:asignaturaId GROUP BY reportePregunta.alumno.id")
+	List<EstadisticasReportesAlumnosDTO> obtenerReportesRealizadosPorAlumno(@Param("asignaturaId") Long asignaturaId);
+
+	@Query("SELECT new com.gameduca.entity.dto.EstadisticasReportesAlumnosDTO(reportePregunta.pregunta.alumno.usuario.nombreUsuario, reportePregunta.pregunta.alumno.id, COUNT(reportePregunta)) FROM ReportePregunta reportePregunta WHERE reportePregunta.pregunta.asignatura.id =:asignaturaId GROUP BY reportePregunta.pregunta.alumno.id")
+	List<EstadisticasReportesAlumnosDTO> obtenerCantidadPreguntasReportadasDelAlumno(@Param("asignaturaId") Long asignaturaId);
 
 
 }

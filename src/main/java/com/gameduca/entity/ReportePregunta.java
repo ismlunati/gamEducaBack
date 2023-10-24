@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
@@ -22,9 +24,11 @@ public class ReportePregunta extends BaseEntity {
     @NotEmpty(message="El texto del reporte no puede estar vacio") 
     private String texto;
     
+    @Enumerated(EnumType.STRING)
     @Column(name="MOTIVO")
     private MotivoReportePregunta motivo;
     
+    @Enumerated(EnumType.STRING)
     @Column(name="ESTADO")
     private EstadoReportePregunta estado;
     

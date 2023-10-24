@@ -64,25 +64,25 @@ public class PreguntaService {
 				.getPrincipal();
     	Alumno alumno = alumnoService.obtenerAlumnoPorNombre(usuario.getUsername());
     	
+    	pregunta.setAlumno(alumno);
+    	pregunta.setAsignatura(tema.getAsignatura());
+    	pregunta.setTema(tema);
+    	preguntaRepository.save(pregunta);
+    	
         String[] arrayRespuestas = respuestas.split(",");
         for (String respuesta : arrayRespuestas) {
             respuesta = respuesta.trim();
             Respuesta entidadRespuesta = new Respuesta();
             entidadRespuesta.setTexto(respuesta);
             entidadRespuesta.setEsCorrecta(false);
+            entidadRespuesta.setPregunta(pregunta);
             respuestaRepository.save(entidadRespuesta);
             listaRespuestas.add(entidadRespuesta);
         }
         Respuesta entidadRespuestaCorrecta = new Respuesta();
         entidadRespuestaCorrecta.setTexto(respuestaCorrecta);
         entidadRespuestaCorrecta.setEsCorrecta(true);
-        listaRespuestas.add(entidadRespuestaCorrecta);
-
-    	pregunta.setAlumno(alumno);
-    	pregunta.setAsignatura(tema.getAsignatura());
-    	pregunta.setRespuestas(listaRespuestas);
-    	pregunta.setTema(tema);
-    	preguntaRepository.save(pregunta);
+        entidadRespuestaCorrecta.setPregunta(pregunta);
     	return pregunta;
     }
     

@@ -31,5 +31,9 @@ public class AlumnoService {
     public AlumnoAsignatura obtenerAlumnoAsignaturaPorNombreAlumnoAsignaturaId(String nombreAlumno, Long AsignaturaId) {
     	return alumnoAsignaturaRepository.findAlumnoAsignaturaByNombreAlumnoIdAsignatura(AsignaturaId, nombreAlumno);
     }
+    
+    public Alumno obtenerAlumnoPorId(Long idAlumno) {
+    	return alumnoRepository.findById(idAlumno).get();
+    }
 
 }

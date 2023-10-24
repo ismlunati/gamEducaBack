@@ -163,7 +163,7 @@ public class RetoService {
     	if(aceptado) {
     		alumnoReto.setEstado(EstadoAlumnoReto.COMPLETADO);
         	alumnoRetoRepository.save(alumnoReto);
-        	AlumnoAsignatura alumnoAsignatura = alumnoAsignaturaRepository.findAlumnoAsignaturaByIdAlumnoIdAsignatura(alumnoReto.getId(), alumnoReto.getReto().getAsignatura().getId());
+        	AlumnoAsignatura alumnoAsignatura = alumnoAsignaturaRepository.findAlumnoAsignaturaByIdAlumnoIdAsignatura(alumnoReto.getReto().getAsignatura().getId(), alumnoReto.getAlumno().getId());
         	alumnoAsignatura.setPuntos(alumnoAsignatura.getPuntos() + alumnoReto.getReto().getPuntosOtorgados());
         	alumnoAsignaturaRepository.save(alumnoAsignatura);
     		Logro logroRelacionadoAlReto = alumnoReto.getReto().getLogro();

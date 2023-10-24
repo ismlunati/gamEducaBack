@@ -29,4 +29,22 @@ public interface TestPreguntasRepository extends CrudRepository<TestPreguntas, L
 
 	@Query("SELECT tp FROM TestPreguntas tp WHERE tp.pregunta.id = :preguntaId")
 	public List<TestPreguntas> findTestPreguntasByPregunta(@Param("preguntaId") Long preguntaId);
+	
+	@Query("FROM TestPreguntas tp WHERE tp.id IN (" +
+		       "    SELECT MIN(subTp.id) " +
+		       "    FROM TestPreguntas subTp " +
+		       "    WHERE subTp.test.asignatura.id = :asignaturaId " +
+		       "    GROUP BY subTp.puntuacionTest.id" +
+		       ") order by tp.test.id asc, tp.idAlumnoQueResponde asc")
+	public List<TestPreguntas> findDistinctTestPreguntasByAsignaturaIdOrderTest(@Param("asignaturaId") Long asignaturaId);
+	
+	@Query("FROM TestPreguntas tp WHERE tp.id IN (" +
+		       "    SELECT MIN(subTp.id) " +
+		       "    FROM TestPreguntas subTp " +
+		       "    WHERE subTp.test.asignatura.id = :asignaturaId " +
+		       "    GROUP BY subTp.puntuacionTest.id" +
+		       ") order by tp.idAlumnoQueResponde asc, tp.test.id asc")
+	public List<TestPreguntas> findDistinctTestPreguntasByAsignaturaIdOrderAlumno(@Param("asignaturaId") Long asignaturaId);
+
+
 }

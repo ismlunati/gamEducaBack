@@ -16,5 +16,10 @@ public interface PreguntaRepository extends CrudRepository<Pregunta, Long>{
 	@Query("SELECT p FROM Pregunta p WHERE p.id IN :ids")
 	public List<Pregunta> findPreguntasByArrayIds(@Param("ids") Long[] ids);
 	
+	@Query("SELECT p FROM Pregunta p WHERE p.asignatura.id = :asignaturaId and p.invalidada = false order by p.tema.id ASC, p.alumno.id ASC")
+	public List<Pregunta> findPreguntasByAsignaturaOrderTema(@Param("asignaturaId") Long asignaturaId);
+	
+	@Query("SELECT p FROM Pregunta p WHERE p.asignatura.id = :asignaturaId and p.invalidada = false order by p.alumno.id ASC, p.tema.id ASC")
+	public List<Pregunta> findPreguntasByAsignaturaOrderAlumno(@Param("asignaturaId") Long asignaturaId);
 
 }

@@ -46,6 +46,14 @@ public class Alumno extends BaseEntity{
     @OneToMany(mappedBy = "alumno", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ReportePregunta> reportesPreguntas;
     
+    @JsonIgnore
+    @ManyToMany(mappedBy = "alumnos")
+    private List<Tier> tiers;
+    
+    
+	public Alumno() {}
+
+    
     
 	public List<Pregunta> getPreguntas() {
 		return preguntas;
@@ -87,6 +95,21 @@ public class Alumno extends BaseEntity{
 		this.compras = compras;
 	}
 
-	public Alumno() {}
+	public List<ReportePregunta> getReportesPreguntas() {
+		return reportesPreguntas;
+	}
+
+	public void setReportesPreguntas(List<ReportePregunta> reportesPreguntas) {
+		this.reportesPreguntas = reportesPreguntas;
+	}
+
+	public List<Tier> getTiers() {
+		return tiers;
+	}
+
+	public void setTiers(List<Tier> tiers) {
+		this.tiers = tiers;
+	}
+
 
 }

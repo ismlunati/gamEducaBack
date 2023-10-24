@@ -69,6 +69,9 @@ public class Asignatura extends BaseEntity {
     
     @OneToMany(mappedBy = "asignatura", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Test> tests;
+    
+    @OneToMany(mappedBy = "asignatura", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<TierList> tierLists;
 	
 	public Asignatura(){
 		
@@ -171,5 +174,23 @@ public class Asignatura extends BaseEntity {
 	public void setTests(List<Test> tests) {
 		this.tests = tests;
 	}
+
+	public List<Logro> getLogros() {
+		return logros;
+	}
+
+	public void setLogros(List<Logro> logros) {
+		this.logros = logros;
+	}
+
+	public List<TierList> getTierLists() {
+		return tierLists;
+	}
+
+	public void setTierLists(List<TierList> tierLists) {
+		this.tierLists = tierLists;
+	}
+	
+	
 	
 }

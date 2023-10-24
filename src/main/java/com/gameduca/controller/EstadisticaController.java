@@ -32,32 +32,32 @@ public class EstadisticaController {
 	EstadisticaService estadisticaService;
 
 	
-    @GetMapping("/asignaturas/{idAsignatura}/estadisticasPreguntasPorTemas")
+    @GetMapping("/asignaturas/{idAsignatura}/estadisticas/preguntasPorTemas")
     public List<EstadisticasPreguntasPorTemasDTO> obtenerEstadisticasPreguntasPorTemas(@PathVariable Long idAsignatura) throws Exception{
     	return estadisticaService.obtenerEstadisticasPreguntasPorTemas(idAsignatura);
     }
     
-    @GetMapping("/asignaturas/{idAsignatura}/estadisticasPreguntasPorAlumnos")
+    @GetMapping("/asignaturas/{idAsignatura}/estadisticas/preguntasPorAlumnos")
     public List<EstadisticasPreguntasPorAlumnosDTO> obtenerEstadisticasPreguntasPorAlumnos(@PathVariable Long idAsignatura) throws Exception{
     	return estadisticaService.obtenerEstadisticasPreguntasPorAlumnos(idAsignatura);
     }
     
-    @GetMapping("/asignaturas/{idAsignatura}/estadisticasTestPorTest")
+    @GetMapping("/asignaturas/{idAsignatura}/estadisticas/testPorTest")
     public List<EstadisticasTestPorTestDTO> obtenerEstadisticasTestPorTest(@PathVariable Long idAsignatura) throws Exception{
     	return estadisticaService.obtenerEstadisticasTestPorTest(idAsignatura);
     }
     
-    @GetMapping("/asignaturas/{idAsignatura}/estadisticasTestPorAlumnos")
+    @GetMapping("/asignaturas/{idAsignatura}/estadisticas/testPorAlumnos")
     public List<EstadisticasTestPorAlumnosDTO> obtenerEstadisticasTestPorAlumnos(@PathVariable Long idAsignatura) throws Exception{
     	return estadisticaService.obtenerEstadisticasTestPorAlumnos(idAsignatura);
     }
     
-    @GetMapping("/asignaturas/{idAsignatura}/estadisticasReportesRealizados")
+    @GetMapping("/asignaturas/{idAsignatura}/estadisticas/reportesRealizados")
     public List<EstadisticasReportesAlumnosDTO> obtenerReportesQueHaRealizadoAlumno(@PathVariable Long idAsignatura) throws Exception{
     	return estadisticaService.obtenerReportesQueHaRealizadoAlumno(idAsignatura);
     }
     
-    @GetMapping("/asignaturas/{idAsignatura}/estadisticasPreguntasReportadas")
+    @GetMapping("/asignaturas/{idAsignatura}/estadisticas/preguntasReportadas")
     public List<EstadisticasReportesAlumnosDTO> obtenerPreguntasQueHanSidoReportadas(@PathVariable Long idAsignatura) throws Exception{
     	return estadisticaService.obtenerPreguntasQueHanSidoReportadas(idAsignatura);
     }

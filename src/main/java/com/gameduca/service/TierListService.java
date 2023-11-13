@@ -2,8 +2,11 @@ package com.gameduca.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -21,7 +24,9 @@ import com.gameduca.entity.Rol;
 import com.gameduca.entity.RolNombre;
 import com.gameduca.entity.Tier;
 import com.gameduca.entity.TierList;
+import com.gameduca.entity.dto.AlumnosAndTiersDTO;
 import com.gameduca.entity.dto.EstadisticasPreguntasPorTemasDTO;
+import com.gameduca.entity.dto.ListaAlumnosAndTierListDTO;
 import com.gameduca.repository.AlumnoAsignaturaRepository;
 import com.gameduca.repository.AlumnoRepository;
 import com.gameduca.repository.AsignaturaRepository;
@@ -39,6 +44,9 @@ public class TierListService {
     
     @Autowired
     private TierRepository tierRepository;
+    
+    @Autowired
+    private AlumnoRepository alumnoRepository;
     
     @Autowired
     private AsignaturaService asignaturaService;
@@ -61,5 +69,31 @@ public class TierListService {
         
         return tierList;
     }
+    
+    @Transactional
+    public TierList addAlumnosATiers(Long idAsignatura, Long idTierList, AlumnosAndTiersDTO alumnosAndTiers) throws Exception {
+    	List<Tier> listaTier = new ArrayList<>();
+    	Map<Long, List<Long>> dicc = alumnosAndTiers.getTiers();
+    	for(Long tierId : dicc.keySet()) {
+    		Tier tier = tierRepository.findById(tierId).get();
+    		List<Alumno> listaAlumnos = StreamSupport.stream(alumnoRepository.findAllById(dicc.get(tierId)).spliterator(), false)
+                    .collect(Collectors.toList());
+    		tier.setAlumnos(listaAlumnos);
+    		listaTier.add(tier);
+    	}
+        tierRepository.saveAll(listaTier);
+        return tierListRepository.findById(idTierList).get();
+    }
 
+
+    public ListaAlumnosAndTierListDTO getTierListAndListaAlumnos(Long idAsignatura, Long idTierList) throws Exception {
+    	ListaAlumnosAndTierListDTO result = new ListaAlumnosAndTierListDTO();
+    	List<Alumno> alumnos = asignaturaService.buscarAsignaturaPorId(idAsignatura).getAlumnoAsignaturas().stream()
+    	                                        .map(AlumnoAsignatura::getAlumno)
+    	                                        .collect(Collectors.toList());
+    	TierList tierList = tierListRepository.findById(idTierList).get();
+    	result.setTierList(tierList);
+    	result.setListaAlumnos(alumnos);
+    	return result;
+    }
 }
